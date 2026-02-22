@@ -1,0 +1,372 @@
+@import 'tailwindcss';
+
+@font-face {
+  font-family: 'Bruney';
+  src: url('/fonts/Bruney.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aerotis';
+  src: url('/fonts/Aerotis.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-heading: 'Bruney', serif;
+  --font-accent: 'Aerotis', cursive;
+  --font-body: 'Inter', sans-serif;
+
+  --color-primary: #4F8E96;
+  --color-primary-dark: #3A6E75;
+  --color-primary-light: #7AACB2;
+  --color-deep: #0B3B42;
+  --color-deep-light: #0F4A52;
+  --color-secondary: #B49A4E;
+  --color-secondary-light: #D4C88A;
+  --color-bg: #F7F5EE;
+  --color-bg-alt: #F0EDE5;
+  --color-text: #1C1C1A;
+  --color-text-secondary: #6B6862;
+  --color-white: #FFFFFF;
+  --color-border: #D8D4CA;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  letter-spacing: 0.3px;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* Paper/canvas texture overlay on the entire page */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  h1 {
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.5px;
+    line-height: 1.15;
+  }
+
+  h2 {
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    line-height: 1.3;
+  }
+}
+
+/* Link refinement */
+a {
+  transition-property: color, opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
+}
+
+/* Image hover for gallery items */
+.gallery-item {
+  overflow: hidden;
+}
+
+.gallery-item img {
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gallery-item:hover img {
+  opacity: 0.88;
+}
+
+/* Gold accent frame for gallery images */
+.gallery-frame {
+  padding: 5px;
+  border: 1px solid var(--color-secondary);
+  background: var(--color-secondary);
+  background: linear-gradient(135deg, rgba(180,154,78,0.3), rgba(180,154,78,0.15), rgba(180,154,78,0.3));
+}
+
+/* ==========================================
+   Featured gallery frame variants (homepage)
+   ========================================== */
+
+/* Thick warm frame — gallery picture frame feel */
+.frame-wood {
+  padding: clamp(6px, 1vw, 10px);
+  background: linear-gradient(145deg, #8B7355 0%, #A0896A 20%, #7A6548 50%, #9C8562 80%, #8B7355 100%);
+  border: 1px solid rgba(90, 70, 45, 0.6);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -1px 0 rgba(0,0,0,0.15),
+    0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Cream mat with thin outer frame */
+.frame-mat {
+  padding: clamp(8px, 1.5vw, 14px);
+  background: #F0EDE5;
+  border: 1px solid #C4B99A;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+}
+
+/* Thin copper/bronze frame */
+.frame-copper {
+  padding: clamp(3px, 0.5vw, 4px);
+  background: linear-gradient(135deg, #B08D57 0%, #C9A96E 40%, #A07840 70%, #C4A265 100%);
+  border: 1px solid rgba(140, 110, 60, 0.5);
+  box-shadow:
+    inset 0 0.5px 0 rgba(255,255,255,0.15),
+    0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Chinoiserie botanical frame — organic flowing vines, leaves, and petals
+   Structure: outer frame → botanical pattern → inner cream mat → image */
+.frame-pattern {
+  padding: clamp(16px, 3.5vw, 36px);
+  background-color: #EDEAE2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Crect width='160' height='160' fill='%23EDEAE2'/%3E%3Cpath d='M8 155C25 125 55 100 80 80S135 42 152 8' fill='none' stroke='%234F8E96' stroke-width='0.9' opacity='0.4' stroke-linecap='round'/%3E%3Cpath d='M0 95C30 78 50 62 75 48S115 18 135 0' fill='none' stroke='%233A6E75' stroke-width='0.6' opacity='0.3' stroke-linecap='round'/%3E%3Cpath d='M25 160C50 140 80 122 105 108S140 80 160 58' fill='none' stroke='%234F8E96' stroke-width='0.5' opacity='0.25' stroke-linecap='round'/%3E%3Cpath d='M25 135C20 125 25 118 32 123S30 140 25 135' fill='%234F8E96' opacity='0.28'/%3E%3Cpath d='M50 110C55 102 62 106 58 113S46 116 50 110' fill='%233A6E75' opacity='0.22'/%3E%3Cpath d='M72 90C66 82 70 74 78 80S78 95 72 90' fill='%234F8E96' opacity='0.26'/%3E%3Cpath d='M95 70C100 62 108 66 103 74S90 76 95 70' fill='%233A6E75' opacity='0.2'/%3E%3Cpath d='M112 52C106 42 112 35 120 42S118 58 112 52' fill='%234F8E96' opacity='0.28'/%3E%3Cpath d='M132 32C137 24 143 28 139 35S128 38 132 32' fill='%233A6E75' opacity='0.22'/%3E%3Cpath d='M18 142C12 132 17 122 25 128S26 148 18 142' fill='%234F8E96' opacity='0.18'/%3E%3Cpath d='M115 48C109 38 114 28 122 34S123 54 115 48' fill='%234F8E96' opacity='0.18'/%3E%3Cpath d='M40 145C36 138 42 132 46 137S44 149 40 145' fill='%234F8E96' opacity='0.16'/%3E%3Cpath d='M42 141C39 135 44 131 47 135' fill='none' stroke='%233A6E75' stroke-width='0.5' opacity='0.18'/%3E%3Cpath d='M120 18C116 11 122 5 126 10S124 22 120 18' fill='%234F8E96' opacity='0.16'/%3E%3Cpath d='M122 14C119 9 124 5 127 9' fill='none' stroke='%233A6E75' stroke-width='0.5' opacity='0.18'/%3E%3Ccircle cx='35' cy='128' r='2.2' fill='%234F8E96' opacity='0.2'/%3E%3Ccircle cx='38' cy='125' r='1.5' fill='%233A6E75' opacity='0.16'/%3E%3Ccircle cx='33' cy='125' r='1.2' fill='%234F8E96' opacity='0.18'/%3E%3Ccircle cx='80' cy='82' r='2' fill='%234F8E96' opacity='0.18'/%3E%3Ccircle cx='83' cy='79' r='1.4' fill='%233A6E75' opacity='0.14'/%3E%3Ccircle cx='78' cy='79' r='1' fill='%234F8E96' opacity='0.16'/%3E%3Ccircle cx='120' cy='38' r='1.8' fill='%234F8E96' opacity='0.2'/%3E%3Ccircle cx='123' cy='35' r='1.2' fill='%233A6E75' opacity='0.16'/%3E%3Cpath d='M15 85C12 78 16 73 19 77S18 87 15 85' fill='%234F8E96' opacity='0.14'/%3E%3Cpath d='M148 72C145 66 149 61 152 65S151 75 148 72' fill='%234F8E96' opacity='0.14'/%3E%3Cpath d='M85 15C82 9 86 4 89 8S88 18 85 15' fill='%233A6E75' opacity='0.12'/%3E%3Cpath d='M75 148C72 142 76 137 79 141S78 151 75 148' fill='%233A6E75' opacity='0.12'/%3E%3Cpath d='M60 105Q52 98 56 90' fill='none' stroke='%234F8E96' stroke-width='0.5' opacity='0.22' stroke-linecap='round'/%3E%3Cpath d='M98 65Q105 58 100 50' fill='none' stroke='%234F8E96' stroke-width='0.5' opacity='0.22' stroke-linecap='round'/%3E%3Cpath d='M130 25Q122 18 126 10' fill='none' stroke='%233A6E75' stroke-width='0.4' opacity='0.18' stroke-linecap='round'/%3E%3Cpath d='M0 58Q10 52 6 44' fill='none' stroke='%234F8E96' stroke-width='0.3' opacity='0.2'/%3E%3Cpath d='M160 102Q150 96 154 88' fill='none' stroke='%234F8E96' stroke-width='0.3' opacity='0.2'/%3E%3Ccircle cx='58' cy='100' r='0.8' fill='%234F8E96' opacity='0.16'/%3E%3Ccircle cx='100' cy='58' r='0.8' fill='%234F8E96' opacity='0.16'/%3E%3Ccircle cx='20' cy='100' r='0.6' fill='%233A6E75' opacity='0.12'/%3E%3Ccircle cx='140' cy='48' r='0.6' fill='%233A6E75' opacity='0.12'/%3E%3Ccircle cx='65' cy='140' r='0.7' fill='%234F8E96' opacity='0.14'/%3E%3Ccircle cx='105' cy='18' r='0.7' fill='%234F8E96' opacity='0.14'/%3E%3Ccircle cx='10' cy='40' r='0.5' fill='%234F8E96' opacity='0.12'/%3E%3Ccircle cx='150' cy='120' r='0.5' fill='%234F8E96' opacity='0.12'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  border: 3px solid #A09882;
+  box-shadow:
+    inset 0 0 0 1px #C8C2B4,
+    inset 0 0 0 8px #F4F1EA,
+    inset 0 0 0 9px rgba(79,142,150,0.2),
+    0 3px 10px rgba(0,0,0,0.12);
+}
+
+/* Large textured teal mat — deep velvet feel with copper/bronze outer frame
+   The padding creates the big teal inlay; inner frame via box-shadow on the image edge */
+.frame-teal {
+  padding: clamp(20px, 4vw, 44px);
+  background-color: #0A353C;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M0 4h8' stroke='%23fff' stroke-width='0.3' opacity='0.05'/%3E%3Cpath d='M4 0v8' stroke='%23fff' stroke-width='0.25' opacity='0.04'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30'%3E%3Cpath d='M0 30L30 0' stroke='%23fff' stroke-width='0.4' opacity='0.03'/%3E%3Cpath d='M10 30L30 10' stroke='%23fff' stroke-width='0.3' opacity='0.02'/%3E%3C/svg%3E");
+  background-size: 300px 300px, 8px 8px, 30px 30px;
+  border: 3px solid;
+  border-image: linear-gradient(145deg, #8B7355 0%, #C9A96E 30%, #A07840 60%, #C4A265 100%) 1;
+  box-shadow:
+    inset 0 0 0 2px rgba(180,154,78,0.2),
+    inset 0 0 20px rgba(0,0,0,0.3),
+    0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Inner frame for images inside teal mat */
+.frame-teal > img,
+.frame-teal > picture > img {
+  box-shadow:
+    0 0 0 2px #A07840,
+    0 0 0 3px rgba(180,154,78,0.3);
+}
+
+/* ==========================================
+   Gallery wall — masonry columns layout
+   Images show at natural aspect ratio;
+   frames scale responsively via clamp()
+   ========================================== */
+
+.gallery-wall {
+  columns: 2;
+  column-gap: 12px;
+}
+
+.gallery-wall-item {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 768px) {
+  .gallery-wall {
+    columns: 3;
+    column-gap: 14px;
+  }
+
+  .gallery-wall-item {
+    margin-bottom: 14px;
+  }
+}
+
+/* Frame padding overrides — control visual weight per item */
+.wall-pad-sm .frame-teal,
+.wall-pad-sm.frame-teal,
+.wall-pad-sm .frame-pattern,
+.wall-pad-sm.frame-pattern { padding: clamp(10px, 2vw, 20px); }
+
+.wall-pad-md .frame-teal,
+.wall-pad-md.frame-teal,
+.wall-pad-md .frame-pattern,
+.wall-pad-md.frame-pattern { padding: clamp(16px, 3.5vw, 36px); }
+
+.wall-pad-lg .frame-teal,
+.wall-pad-lg.frame-teal,
+.wall-pad-lg .frame-pattern,
+.wall-pad-lg.frame-pattern { padding: clamp(22px, 4.5vw, 50px); }
+
+.wall-pad-sm .frame-wood,
+.wall-pad-sm.frame-wood { padding: clamp(4px, 0.6vw, 6px); }
+
+.wall-pad-sm .frame-copper,
+.wall-pad-sm.frame-copper { padding: clamp(2px, 0.3vw, 3px); }
+
+.wall-pad-sm .frame-mat,
+.wall-pad-sm.frame-mat { padding: clamp(5px, 0.8vw, 8px); }
+
+.wall-pad-lg .frame-mat,
+.wall-pad-lg.frame-mat { padding: clamp(14px, 2.5vw, 28px); }
+
+.wall-pad-lg .frame-wood,
+.wall-pad-lg.frame-wood { padding: clamp(10px, 1.8vw, 18px); }
+
+.wall-pad-lg .frame-copper,
+.wall-pad-lg.frame-copper { padding: clamp(5px, 0.8vw, 8px); }
+
+/* ==========================================
+   Deep teal sections — atmospheric blocks
+   ========================================== */
+.section-deep {
+  background: var(--color-deep);
+  color: var(--color-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Atmospheric radial glow — kept away from edges to avoid seam with PaintedEdge */
+.section-deep-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 40%, rgba(79,142,150,0.18) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 70%, rgba(180,154,78,0.08) 0%, transparent 50%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 8%, black 20%, black 80%, transparent 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 8%, black 20%, black 80%, transparent 92%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Noise grain + linen weave texture */
+.section-deep::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='6' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.6'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M0 0h1v1H0zm3 3h1v1H3z' fill='%23fff' opacity='0.06'/%3E%3C/svg%3E");
+  background-size: 400px 400px, 6px 6px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 6%, black 15%, black 85%, transparent 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 6%, black 15%, black 85%, transparent 94%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Vignette + subtle diagonal brushstroke pattern */
+.section-deep::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.2) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M0 40L40 0' stroke='%23fff' stroke-width='0.5' opacity='0.04'/%3E%3Cpath d='M20 40L40 20' stroke='%23fff' stroke-width='0.3' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 100% 100%, 40px 40px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 6%, black 15%, black 85%, transparent 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 6%, black 15%, black 85%, transparent 94%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Hero-positioned deep sections: no fade at the top, only at the bottom */
+.section-deep-top::before {
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 94%, transparent 100%);
+}
+
+.section-deep-top::after {
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 94%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 94%, transparent 100%);
+}
+
+.section-deep-top .section-deep-bg img {
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.15) 80%, transparent 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 0%, black 62%, rgba(0,0,0,0.15) 80%, transparent 90%, transparent 100%);
+}
+
+/* Background photo layer inside teal sections */
+.section-deep-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.section-deep-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  scale: 1.1;
+  opacity: 0.12;
+  filter: blur(1px) contrast(1.8);
+  mix-blend-mode: luminosity;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(0,0,0,0.15) 20%, black 38%, black 62%, rgba(0,0,0,0.15) 80%, transparent 90%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, transparent 10%, rgba(0,0,0,0.15) 20%, black 38%, black 62%, rgba(0,0,0,0.15) 80%, transparent 90%, transparent 100%);
+}
+
+.section-deep > *:not(.section-deep-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gold border card on deep sections */
+.card-deep {
+  border: 1px solid var(--color-secondary);
+  box-shadow: inset 0 0 0 1px rgba(180, 154, 78, 0.15);
+  padding: 2.5rem;
+}
+
+/* ==========================================
+   Teal photo overlay
+   ========================================== */
+.photo-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 59, 66, 0.65);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.photo-overlay-light::after {
+  background: rgba(11, 59, 66, 0.45);
+}

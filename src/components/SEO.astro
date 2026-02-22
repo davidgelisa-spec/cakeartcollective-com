@@ -1,0 +1,40 @@
+---
+import { siteConfig } from '../data/siteConfig';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  image = '/favicon.svg',
+  canonicalUrl,
+} = Astro.props;
+
+const pageTitle = title
+  ? `${title} | ${siteConfig.name}`
+  : siteConfig.name;
+const canonical = canonicalUrl || Astro.url.href;
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={new URL(image, Astro.site).href} />
+<meta property="og:site_name" content={siteConfig.name} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(image, Astro.site).href} />

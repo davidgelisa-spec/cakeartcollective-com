@@ -1,0 +1,40 @@
+---
+/**
+ * Torn paper edge transition between sections.
+ * Creates an organic, ripped paper effect like handmade/deckled edges.
+ *
+ * @prop fill - The colour of the torn paper (the colour it blends INTO)
+ * @prop flip - Flip vertically for bottom edges
+ */
+interface Props {
+  fill?: string;
+  flip?: boolean;
+  class?: string;
+}
+
+const { fill = '#F7F5EE', flip = false, class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={['w-full overflow-hidden leading-[0] pointer-events-none -my-[3px]', { 'rotate-180': flip }, className]}
+  aria-hidden="true"
+>
+  <svg
+    viewBox="0 0 1440 60"
+    preserveAspectRatio="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-full h-[30px] sm:h-[40px] md:h-[50px] block"
+  >
+    <!-- Main torn edge — jagged, organic, like ripped paper -->
+    <path
+      d={`M0 60 L0 28 C12 26 18 32 28 24 C38 16 42 30 56 22 C68 15 72 28 88 20 C102 13 108 26 124 18 C138 11 146 24 162 16 C176 9 184 22 200 14 C214 7 222 20 240 12 C256 5 264 18 282 10 C298 3 306 16 324 8 C340 1 348 14 366 6 C382 -1 390 12 408 4 C424 -3 432 10 450 2 C466 -5 474 8 492 0 C510 -5 518 8 536 2 C552 -3 560 10 578 4 C594 -1 602 14 620 6 C636 -1 646 12 664 8 C680 4 690 16 708 10 C724 5 736 18 754 14 C770 10 780 22 798 16 C814 10 824 24 842 18 C858 12 868 26 886 20 C902 14 912 28 930 22 C946 16 958 30 976 24 C992 18 1002 32 1020 26 C1036 20 1046 34 1064 28 C1080 22 1090 36 1108 30 C1124 24 1134 14 1152 20 C1168 26 1178 8 1196 14 C1212 20 1222 4 1240 10 C1256 16 1266 2 1284 8 C1300 14 1310 0 1328 6 C1344 12 1354 2 1372 8 C1388 14 1398 6 1416 12 C1430 16 1436 20 1440 18 L1440 60 Z`}
+      fill={fill}
+    />
+    <!-- Secondary softer layer for paper-like depth -->
+    <path
+      d={`M0 60 L0 36 C20 32 40 38 60 30 C80 22 100 34 120 26 C140 18 160 30 180 24 C200 16 220 28 240 20 C260 14 280 24 300 18 C320 12 340 22 360 16 C380 10 400 20 420 14 C440 8 460 18 480 12 C500 6 520 16 540 10 C560 6 580 14 600 10 C620 6 640 14 660 10 C680 8 700 16 720 12 C740 8 760 18 780 14 C800 10 820 20 840 16 C860 12 880 24 900 18 C920 14 940 26 960 20 C980 16 1000 28 1020 22 C1040 18 1060 30 1080 24 C1100 20 1120 32 1140 26 C1160 22 1180 34 1200 28 C1220 24 1240 36 1260 30 C1280 26 1300 38 1320 32 C1340 28 1360 36 1380 30 C1400 26 1420 34 1440 28 L1440 60 Z`}
+      fill={fill}
+      opacity="0.6"
+    />
+  </svg>
+</div>

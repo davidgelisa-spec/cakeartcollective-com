@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/tmp/check_gallery.sh:*)",
+      "Bash(chmod:*)",
+      "Bash(/tmp/check_weddings.sh:*)",
+      "Bash(/tmp/check_weddings.sh)",
+      "Bash(/tmp/report.txt:*)",
+      "Bash(npx astro check:*)",
+      "Bash(if [ ! -f \"/Users/lisadavidge/Desktop/cakeartcollective-com/src/assets/images/$f\" ])"
+    ]
+  }
+}

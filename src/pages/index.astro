@@ -1,0 +1,206 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import Flourish from '../components/ui/Flourish.astro';
+import PaintedEdge from '../components/ui/PaintedEdge.astro';
+
+import hero from '../assets/images/Featured on front page/sculpted-elephant-african-sunset-cake.jpg';
+
+// Featured work — curated picks from "Featured on front page"
+import feat1 from '../assets/images/Featured on front page/sculpted-koi-fish-cake-closeup-scales.jpeg';
+import feat2 from '../assets/images/Featured on front page/two-tier-cake-fuchsia-dahlia-white-roses.jpg';
+import feat3 from '../assets/images/Featured on front page/sculpted-rolex-box-cake-three-quarter.jpeg';
+import feat4 from '../assets/images/Featured on front page/sculpted-t-rex-head-detail-teeth.jpeg';
+import feat5 from '../assets/images/Featured on front page/sculpted-royal-crown-cake-purple-gold.jpg';
+import feat6 from '../assets/images/Featured on front page/trio-wedding-cakes-pink-dahlias-foliage.jpeg';
+import feat7 from '../assets/images/Featured on front page/single-tier-cakes-cream-dahlias-burgundy-roses.jpeg';
+import feat8 from '../assets/images/Featured on front page/Screenshot_20211111-074618_Original.jpg';
+
+// Background image for teal sections
+import tealBg from '../assets/images/wedding-cakes/sugar-dahlia-pink-white-realistic-detail.jpg';
+---
+
+<BaseLayout
+  title="Custom Cakes & Decorating Classes"
+  description="Cake Art Collective — custom cakes and cake decorating classes by Lisa."
+>
+  <!-- Hero — deep teal atmospheric block with photo overlay -->
+  <section class="section-deep section-deep-top">
+    <div class="section-deep-bg">
+      <Image src={tealBg} alt="" width={1200} quality={30} />
+    </div>
+    <div class="max-w-7xl mx-auto px-6 py-20 md:py-32">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div>
+          <Flourish variant="light" class="justify-start py-4 mb-4" />
+          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-bg mb-6">
+            Life is short.<br />Make it sweet.
+          </h1>
+          <p class="text-primary-light text-lg max-w-lg mb-10 leading-relaxed">
+            Custom cakes and hands-on decorating classes. Every cake designed, sculpted, and finished by hand.
+          </p>
+          <div class="flex flex-wrap gap-6">
+            <a href="/gallery/"
+              class="text-[11px] tracking-[0.2em] uppercase text-secondary-light border-b border-secondary-light/50 pb-1 hover:text-secondary hover:border-secondary transition-colors">
+              View gallery
+            </a>
+            <a href="/contact/"
+              class="text-[11px] tracking-[0.2em] uppercase text-primary-light/70 border-b border-primary-light/20 pb-1 hover:text-secondary-light hover:border-secondary-light transition-colors">
+              Order a cake
+            </a>
+          </div>
+        </div>
+        <div class="gallery-frame">
+          <Image
+            src={hero}
+            alt="Gold sculpted elephant emerging from a hand-painted African sunset cake"
+            width={800}
+            class="w-full h-auto block"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Torn paper edge from dark into cream -->
+  <PaintedEdge fill="#F7F5EE" />
+
+  <!-- Featured Work — gallery wall -->
+  <section class="max-w-7xl mx-auto px-6 py-16 md:py-24">
+    <div class="gallery-wall">
+      <!-- Col 1: Dragon, Dahlia, Trio wedding -->
+      <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-lg block">
+        <Image
+          src={feat8}
+          alt="Sculpted iridescent dragon cake with purple and teal scales, horns, and folded wings"
+          widths={[400, 600]}
+          sizes="(max-width: 768px) 50vw, 33vw"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </a>
+      <a href="/gallery/weddings/" class="gallery-wall-item gallery-item frame-pattern wall-pad-lg block">
+        <Image
+          src={feat2}
+          alt="Two-tier white cake with bold fuchsia dahlia, white roses, and peach peonies"
+          widths={[400, 600]}
+          sizes="(max-width: 768px) 50vw, 33vw"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </a>
+      <a href="/gallery/weddings/" class="gallery-wall-item gallery-item frame-mat wall-pad-lg block">
+        <Image
+          src={feat6}
+          alt="Trio of wedding cakes with pink dahlias and trailing foliage"
+          widths={[400, 600]}
+          sizes="(max-width: 768px) 50vw, 33vw"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </a>
+      <!-- Col 2: Crown, Rolex, Single-tier cakes -->
+      <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-lg block">
+        <Image
+          src={feat5}
+          alt="Sculpted royal crown cake in purple and gold with intricate detailing"
+          widths={[400, 600]}
+          sizes="(max-width: 768px) 50vw, 33vw"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </a>
+      <a href="/gallery/" class="gallery-wall-item gallery-item frame-copper wall-pad-sm block">
+        <Image
+          src={feat3}
+          alt="Sculpted Rolex watch box cake with green case and silver watch"
+          widths={[400, 600]}
+          sizes="(max-width: 768px) 50vw, 33vw"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </a>
+      <a href="/gallery/weddings/" class="gallery-wall-item gallery-item frame-pattern wall-pad-md block">
+        <Image
+          src={feat7}
+          alt="Three individual single-tier cakes on metal stands with cream dahlias and burgundy roses, styled with pink taper candles"
+          widths={[400, 600]}
+          sizes="(max-width: 768px) 50vw, 33vw"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </a>
+      <!-- Col 3: Koi, T-Rex -->
+      <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-sm block">
+        <Image
+          src={feat1}
+          alt="Close-up of sculpted koi fish cake showing detailed hand-painted orange and white scales"
+          widths={[400, 600, 800]}
+          sizes="(max-width: 768px) 50vw, 33vw"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </a>
+      <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-md block">
+        <Image
+          src={feat4}
+          alt="Close-up of sculpted T-Rex head showing detailed open mouth with teeth and vivid yellow eye"
+          widths={[400, 600]}
+          sizes="(max-width: 768px) 50vw, 33vw"
+          class="w-full h-auto block"
+          loading="lazy"
+        />
+      </a>
+    </div>
+    <div class="mt-10">
+      <a href="/gallery/"
+        class="text-[11px] tracking-[0.2em] uppercase text-text-secondary hover:text-primary transition-colors">
+        View all &rarr;
+      </a>
+    </div>
+  </section>
+
+  <Flourish />
+
+  <!-- About / Intro -->
+  <section class="max-w-7xl mx-auto px-6 py-16 md:py-28">
+    <div class="max-w-3xl">
+      <Flourish class="justify-start mb-8" />
+      <p class="font-accent text-3xl md:text-4xl text-primary mb-3">the story so far</p>
+      <h2 class="font-heading text-3xl md:text-4xl text-text mb-8">About me</h2>
+      <p class="text-text-secondary text-lg leading-relaxed mb-6">
+        I'm Lisa. I've spent over a decade making cakes — sculpting, painting, and building things that people don't want to cut into.
+      </p>
+      <p class="text-text-secondary text-lg leading-relaxed mb-10">
+        I also teach. My classes are for anyone who wants to learn the craft, whether you're picking up a palette knife for the first time or refining your technique.
+      </p>
+      <a href="/about/"
+        class="text-[11px] tracking-[0.2em] uppercase text-text-secondary hover:text-primary transition-colors">
+        More about Lisa &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- CTA — deep teal atmospheric block -->
+  <PaintedEdge fill="#0B3B42" />
+  <section class="section-deep">
+    <div class="section-deep-bg">
+      <Image src={tealBg} alt="" width={1200} quality={30} />
+    </div>
+    <div class="max-w-7xl mx-auto px-6 py-16 md:py-28 text-center">
+      <Flourish variant="light" class="mb-4" />
+      <p class="font-accent text-3xl md:text-4xl text-primary-light mb-3">let's create something</p>
+      <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-6">
+        Every cake starts with a conversation
+      </h2>
+      <p class="text-primary-light/80 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+        Tell me about your occasion and I'll design something original for it.
+      </p>
+      <a href="/contact/"
+        class="inline-block text-[11px] tracking-[0.2em] uppercase text-secondary-light border-b border-secondary-light/50 pb-1 hover:text-secondary hover:border-secondary transition-colors">
+        Get in touch
+      </a>
+    </div>
+  </section>
+  <PaintedEdge fill="#F7F5EE" />
+</BaseLayout>

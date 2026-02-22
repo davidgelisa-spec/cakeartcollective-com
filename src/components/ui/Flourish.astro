@@ -1,0 +1,61 @@
+---
+/**
+ * Ornate gold flourish divider — inspired by Amy T. Won's decorative arrow.
+ * Use between major sections as an artistic divider.
+ *
+ * @prop variant - 'default' for standard, 'light' for use on dark backgrounds
+ */
+interface Props {
+  class?: string;
+  variant?: 'default' | 'light';
+}
+
+const { class: className = '', variant = 'default' } = Astro.props;
+const color = variant === 'light' ? '#D4C88A' : '#B49A4E';
+const opacity = variant === 'light' ? '0.9' : '0.75';
+---
+
+<div class:list={['flex items-center justify-center py-8', className]} aria-hidden="true">
+  <svg width="200" height="24" viewBox="0 0 200 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Left decorative curl -->
+    <path
+      d="M20 12 C24 8, 30 6, 36 8 C42 10, 40 14, 36 14 C32 14, 30 10, 34 8"
+      stroke={color}
+      stroke-width="1"
+      fill="none"
+      opacity={opacity}
+    />
+    <!-- Left line -->
+    <line x1="38" y1="12" x2="88" y2="12" stroke={color} stroke-width="0.75" opacity={opacity} />
+
+    <!-- Centre ornament — diamond with flourishes -->
+    <path
+      d="M92 12 L100 4 L108 12 L100 20 Z"
+      fill="none"
+      stroke={color}
+      stroke-width="1"
+      opacity={opacity}
+    />
+    <circle cx="100" cy="12" r="2" fill={color} opacity={opacity} />
+    <!-- Small accent dots -->
+    <circle cx="93" cy="6" r="0.8" fill={color} opacity="0.4" />
+    <circle cx="107" cy="6" r="0.8" fill={color} opacity="0.4" />
+    <circle cx="93" cy="18" r="0.8" fill={color} opacity="0.4" />
+    <circle cx="107" cy="18" r="0.8" fill={color} opacity="0.4" />
+
+    <!-- Right line -->
+    <line x1="112" y1="12" x2="162" y2="12" stroke={color} stroke-width="0.75" opacity={opacity} />
+    <!-- Right decorative curl (mirrored) -->
+    <path
+      d="M180 12 C176 8, 170 6, 164 8 C158 10, 160 14, 164 14 C168 14, 170 10, 166 8"
+      stroke={color}
+      stroke-width="1"
+      fill="none"
+      opacity={opacity}
+    />
+
+    <!-- Arrowhead tips -->
+    <path d="M16 12 L24 9 L22 12 L24 15 Z" fill={color} opacity={opacity} />
+    <path d="M184 12 L176 9 L178 12 L176 15 Z" fill={color} opacity={opacity} />
+  </svg>
+</div>

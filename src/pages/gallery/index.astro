@@ -1,0 +1,245 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import Flourish from '../../components/ui/Flourish.astro';
+import PaintedEdge from '../../components/ui/PaintedEdge.astro';
+
+// Sculpted — fantasy & artistic (sculpted-cakes/ root)
+import elephantSunset from '../../assets/images/sculpted-cakes/sculpted-elephant-african-sunset-cake.jpg';
+import elephantPrint from '../../assets/images/sculpted-cakes/sculpted-elephant-cake-african-print.jpg';
+import dragon from '../../assets/images/sculpted-cakes/sculpted-dragon-cake-iridescent-purple-teal.jpg';
+import cheshireCat from '../../assets/images/sculpted-cakes/sculpted-cheshire-cat-cake-green-eyes.jpg';
+import tRex from '../../assets/images/sculpted-cakes/sculpted-t-rex-dinosaur-cake-rainbow-tail.jpeg';
+import tRexHead from '../../assets/images/sculpted-cakes/sculpted-t-rex-head-detail-teeth.jpeg';
+import carnivorous from '../../assets/images/sculpted-cakes/sculpted-carnivorous-plant-cake-competition.jpeg';
+import crown from '../../assets/images/sculpted-cakes/sculpted-royal-crown-cake-purple-gold.jpg';
+import henSide from '../../assets/images/sculpted-cakes/sculpted-hen-cake-side-profile.jpeg';
+import watercolourWatch from '../../assets/images/sculpted-cakes/blue-gold-watercolour-cake-watch-topper.jpeg';
+
+// Celebration & Floral Cakes
+import cherryBlossom from '../../assets/images/celebration-cakes/cherry-blossom-tree-buttercream-cake.jpeg';
+import buttercreamFlowers from '../../assets/images/celebration-cakes/buttercream-flower-cake-pink-peony-clematis.jpg';
+import flowerCupcakes from '../../assets/images/celebration-cakes/buttercream-flower-cupcakes-roses-hydrangeas.jpeg';
+import hpPink from '../../assets/images/celebration-cakes/harry-potter-pink-cake-golden-snitch.jpg';
+import hpPinkFull from '../../assets/images/celebration-cakes/harry-potter-pink-cake-full-view.jpeg';
+import firstBirthday from '../../assets/images/celebration-cakes/first-birthday-cake-pink-peony-rose-gold.jpeg';
+import elegantRoses from '../../assets/images/celebration-cakes/elegant-buttercream-cake-white-roses.jpg';
+import beach40th from '../../assets/images/celebration-cakes/beach-themed-40th-birthday-cake.jpeg';
+import retro80s from '../../assets/images/celebration-cakes/retro-80s-birthday-cake-boombox.jpeg';
+import monstera from '../../assets/images/celebration-cakes/tropical-monstera-birthday-cake-detail.jpeg';
+import minion from '../../assets/images/celebration-cakes/minion-sculpted-cake-cupcakes.png';
+import christeningDisplay from '../../assets/images/celebration-cakes/christening-cake-full-display-hydrangeas.jpg';
+import christeningElephant from '../../assets/images/celebration-cakes/christening-cake-blue-pink-elephant-topper.jpg';
+import christeningBunting from '../../assets/images/celebration-cakes/christening-cake-bunting-alphabet-blocks.jpg';
+import fortnite from '../../assets/images/celebration-cakes/sculpted-fortnite-llama-cake-purple.jpeg';
+import hpBooks from '../../assets/images/celebration-cakes/sculpted-harry-potter-books-sorting-hat.jpg';
+import sherwani from '../../assets/images/celebration-cakes/sculpted-green-sherwani-mendhi-cake.jpeg';
+import sherwaniMendhi from '../../assets/images/celebration-cakes/mendhi-celebration-sherwani-cake.jpeg';
+
+// Hyper-realistic — "Yes, it's really cake" (sculpted-cakes/Hyper-realistic /)
+import rolexBox from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-rolex-box-cake-front-white.jpeg';
+import rolexWatch from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-rolex-daytona-watch-closeup.jpeg';
+import rolexAngle from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-rolex-box-cake-angle-two.jpeg';
+import rolexMarble from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-rolex-watch-box-cake-marble-base.jpeg';
+import rolexDaytonaAngle from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-rolex-daytona-watch-box-closeup-angle.jpeg';
+import rolexTopDown from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-rolex-box-cake-top-down.png';
+import hen from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-hen-cake-feather-detail-rear.jpg';
+import henFront from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-hen-cake-front-view-chickens.jpg';
+import eggCarton from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-egg-carton-cake-speckled-eggs.jpg';
+import treeStump from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-tree-stump-axe-cake-full.jpeg';
+import treeStumpBark from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-tree-stump-cake-bark-detail.jpg';
+import rainbowWatch from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-gold-rainbow-watch-green-box.jpg';
+import koiFish from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-koi-fish-cake-front-view.jpeg';
+import koiFishScales from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-koi-fish-cake-closeup-scales.jpeg';
+import koiFishSide from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-koi-fish-cake-side-view.jpeg';
+import chicken from '../../assets/images/sculpted-cakes/Hyper-realistic /Chicken sculpted cake.jpeg';
+import trout from '../../assets/images/sculpted-cakes/Hyper-realistic /sculpted-rainbow-trout-wooden-plaque-fishing-line.jpeg';
+
+// Sculpted — fantasy, artistic, and imaginative pieces (grouped by cake)
+const sculptedWork = [
+  // Elephant — two views
+  { src: elephantSunset, alt: 'Gold sculpted elephant emerging from a hand-painted African sunset scene in blue, magenta, and yellow' },
+  { src: elephantPrint, alt: 'Sculpted elephant cake with colourful African print pattern and detailed trunk and tusks' },
+  // Dragon
+  { src: dragon, alt: 'Sculpted iridescent dragon in purple and teal with folded wings, horns and yellow eyes at a cake competition' },
+  // Cheshire Cat
+  { src: cheshireCat, alt: 'Sculpted Cheshire Cat with glowing green eyes and wide toothy grin against a dark forest backdrop' },
+  // T-Rex — two views
+  { src: tRex, alt: 'Full-body sculpted T-Rex dinosaur in green with a rainbow-striped tail on a stone-textured base' },
+  { src: tRexHead, alt: 'Close-up of sculpted T-Rex head showing detailed open mouth with teeth and vivid yellow eye' },
+  // Other sculpted pieces
+  { src: carnivorous, alt: 'Sculpted carnivorous plant cake with realistic tendrils, created for a cake competition' },
+  { src: crown, alt: 'Sculpted royal crown in purple velvet and burnished gold with jewel details and ermine-style base' },
+  { src: henSide, alt: 'Sculpted white hen cake side profile showing detailed feather textures' },
+  { src: watercolourWatch, alt: 'Blue and gold watercolour-painted cake topped with a sculpted black chronograph watch in a blue box' },
+  { src: fortnite, alt: 'Sculpted Fortnite Loot Llama pinata cake in purple, blue and pink standing upright on a marbled base' },
+];
+
+const celebrationWork = [
+  { src: cherryBlossom, alt: 'Two-tier white buttercream cake with a sculpted cherry blossom tree and dozens of handcrafted pink flowers' },
+  { src: buttercreamFlowers, alt: 'Two-tier mint buttercream cake with elaborate piped pink peony, roses, purple clematis and lush green leaves' },
+  { src: flowerCupcakes, alt: 'Overhead arrangement of buttercream flower cupcakes with piped roses, ranunculus and hydrangeas in pink, burgundy and cream' },
+  // Harry Potter — two views
+  { src: hpPink, alt: 'Pink Harry Potter birthday cake with gold fondant Golden Snitch, Hogwarts crest, white quill and gold stars' },
+  { src: hpPinkFull, alt: 'Full view of pink Harry Potter birthday cake showing all tiers and decoration details' },
+  { src: hpBooks, alt: 'Sculpted Harry Potter book stack with History of Magic, Quidditch, brown Sorting Hat and Gryffindor scarf detail' },
+  { src: firstBirthday, alt: 'Elegant first birthday cake with smooth cream buttercream, rose gold base, and a large pink sugar peony' },
+  { src: elegantRoses, alt: 'Single-tier cake with textured ivory buttercream swirls topped with white and pale pink sugar roses and baby\'s breath' },
+  { src: beach40th, alt: 'Beach-themed 40th birthday cake with sand-textured frosting, seashells, and tropical details' },
+  { src: retro80s, alt: 'Retro 80s birthday cake shaped like a boombox with vibrant neon colours and cassette details' },
+  { src: monstera, alt: 'Tropical birthday cake with hand-painted monstera leaves and botanical details' },
+  { src: minion, alt: 'Sculpted Minion cake with matching decorated cupcakes' },
+  // Sherwani — two views
+  { src: sherwani, alt: 'Sculpted green sherwani cake with ornate embossed fabric texture, metallic buttons and decorative brooch' },
+  { src: sherwaniMendhi, alt: 'Sculpted mendhi celebration cake with ornate sherwani design and intricate patterns' },
+  // Christening — grouped
+  { src: christeningDisplay, alt: 'Christening cake full display with hydrangeas and elegant white and pastel decoration' },
+  { src: christeningElephant, alt: 'Christening cake with blue and pink elephant topper and delicate details' },
+  { src: christeningBunting, alt: 'Christening cake with bunting decoration and alphabet blocks' },
+];
+
+// Yes, it's really cake — hyper-realistic trompe l'oeil pieces (grouped by cake)
+const hyperReal = [
+  // Rolex watch box — multiple angles
+  { src: rolexBox, alt: 'Sculpted Rolex Daytona watch box with open green case, silver watch on white cushion and branding detail' },
+  { src: rolexWatch, alt: 'Close-up of sculpted silver Rolex Daytona watch with warranty card and wax seal on white cushion' },
+  { src: rolexAngle, alt: 'Sculpted Rolex watch box cake from a second angle showing green case and silver watch detail' },
+  { src: rolexMarble, alt: 'Sculpted Rolex watch box cake on a marble base with green case and cushioned watch' },
+  { src: rolexDaytonaAngle, alt: 'Close-up angle of sculpted Rolex Daytona watch and box showing face detail' },
+  { src: rolexTopDown, alt: 'Top-down view of sculpted Rolex watch box cake showing watch face and green case detail' },
+  // Hen — multiple angles
+  { src: hen, alt: 'Sculpted white hen cake with incredibly detailed grey-tipped feather textures, real chickens visible in the background' },
+  { src: henFront, alt: 'Sculpted white hen cake from the front with real chickens in the background' },
+  // Egg carton
+  { src: eggCarton, alt: 'Sculpted egg carton cake with six realistic speckled brown eggs on straw and a birthday message card' },
+  // Tree stump — two views
+  { src: treeStump, alt: 'Realistic tree stump cake with detailed bark texture, silver axe embedded in top, and moss at the base' },
+  { src: treeStumpBark, alt: 'Close-up of sculpted tree stump cake showing detailed bark texture and moss' },
+  // Koi fish — three views
+  { src: koiFish, alt: 'Sculpted koi fish in orange, white and black leaping over a turquoise water base with wave details' },
+  { src: koiFishScales, alt: 'Close-up of sculpted koi fish cake showing detailed hand-painted orange and white scales' },
+  { src: koiFishSide, alt: 'Sculpted koi fish cake side view showing the full leaping pose over a water base' },
+  // Other hyper-real pieces
+  { src: rainbowWatch, alt: 'Sculpted gold luxury watch with rainbow-coloured bezel resting on a white cushion inside a green presentation box' },
+  { src: chicken, alt: 'Sculpted chicken cake with detailed feather textures and realistic colouring' },
+  { src: trout, alt: 'Sculpted rainbow trout cake mounted on a wooden plaque with fishing line detail' },
+];
+---
+
+<BaseLayout
+  title="Gallery"
+  description="Custom cakes by Cake Art Collective. Sculpted cakes, celebration cakes, and wedding cakes by Lisa."
+>
+  <!-- Hero -->
+  <section class="section-deep section-deep-top">
+    <div class="max-w-7xl mx-auto px-6 py-14 md:py-20">
+      <Flourish variant="light" class="justify-start py-4 mb-4" />
+      <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-bg mb-4">Gallery</h1>
+      <p class="text-primary-light/80 max-w-lg leading-relaxed">
+        Sculpted, painted, and built by hand. Here's some of what I've made.
+      </p>
+    </div>
+  </section>
+  <PaintedEdge fill="#F7F5EE" />
+
+  <!-- Sculpted — fantasy & artistic -->
+  <section class="max-w-7xl mx-auto px-6 py-12 md:py-16">
+    <p class="font-accent text-3xl md:text-4xl text-primary mb-2">imagination, realised</p>
+    <h2 class="font-heading text-2xl md:text-3xl text-text mb-3">Sculpted</h2>
+    <p class="text-text-secondary max-w-lg mb-10 leading-relaxed">
+      Three-dimensional work — carved, modelled, and painted to bring ideas to life.
+    </p>
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 md:gap-6">
+      {sculptedWork.map((cake) => (
+        <div class="gallery-item gallery-frame break-inside-avoid mb-5 md:mb-6">
+          <Image
+            src={cake.src}
+            alt={cake.alt}
+            widths={[400, 600, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            class="w-full h-auto block"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Flourish />
+
+  <!-- Celebration & Floral -->
+  <section class="max-w-7xl mx-auto px-6 py-12 md:py-16">
+    <p class="font-accent text-3xl md:text-4xl text-primary mb-2">for life's sweetest moments</p>
+    <h2 class="font-heading text-2xl md:text-3xl text-text mb-3">Celebration & floral</h2>
+    <p class="text-text-secondary max-w-lg mb-10 leading-relaxed">
+      Buttercream flowers, painted finishes, and decorated pieces for birthdays and special occasions.
+    </p>
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 md:gap-6">
+      {celebrationWork.map((cake) => (
+        <div class="gallery-item gallery-frame break-inside-avoid mb-5 md:mb-6">
+          <Image
+            src={cake.src}
+            alt={cake.alt}
+            widths={[400, 600, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            class="w-full h-auto block"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <Flourish />
+
+  <!-- Yes, it's really cake -->
+  <section class="max-w-7xl mx-auto px-6 py-12 md:py-16">
+    <p class="font-accent text-3xl md:text-4xl text-primary mb-2">look closer</p>
+    <h2 class="font-heading text-2xl md:text-3xl text-text mb-3">Yes, it's really cake</h2>
+    <p class="text-text-secondary max-w-lg mb-10 leading-relaxed">
+      Hyper-realistic pieces designed to fool the eye. Every detail is edible.
+    </p>
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 md:gap-6">
+      {hyperReal.map((cake) => (
+        <div class="gallery-item gallery-frame break-inside-avoid mb-5 md:mb-6">
+          <Image
+            src={cake.src}
+            alt={cake.alt}
+            widths={[400, 600, 800]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            class="w-full h-auto block"
+            loading="lazy"
+          />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Wedding link -->
+  <section class="max-w-7xl mx-auto px-6 pb-12 md:pb-16">
+    <a href="/gallery/weddings/"
+      class="text-[11px] tracking-[0.2em] uppercase text-text-secondary hover:text-primary transition-colors">
+      View wedding cakes &rarr;
+    </a>
+  </section>
+
+  <!-- CTA — deep teal block -->
+  <PaintedEdge fill="#0B3B42" />
+  <section class="section-deep">
+    <div class="max-w-7xl mx-auto px-6 py-16 md:py-28 text-center">
+      <Flourish variant="light" class="mb-4" />
+      <p class="font-accent text-3xl md:text-4xl text-primary-light mb-3">let's talk</p>
+      <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-6">
+        Have something in mind?
+      </h2>
+      <p class="text-primary-light/80 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+        Every cake is designed from scratch. Tell me about your occasion and I'll create something you'll love.
+      </p>
+      <a href="/contact/"
+        class="inline-block text-[11px] tracking-[0.2em] uppercase text-secondary-light border-b border-secondary-light/50 pb-1 hover:text-secondary hover:border-secondary transition-colors">
+        Get in touch
+      </a>
+    </div>
+  </section>
+  <PaintedEdge fill="#F7F5EE" />
+</BaseLayout>
