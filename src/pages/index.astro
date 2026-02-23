@@ -16,6 +16,9 @@ import feat6 from '../assets/images/Featured on front page/trio-wedding-cakes-pi
 import feat7 from '../assets/images/Featured on front page/single-tier-cakes-cream-dahlias-burgundy-roses.jpeg';
 import feat8 from '../assets/images/Featured on front page/Screenshot_20211111-074618_Original.jpg';
 
+// Monogram
+import monogram from '../assets/images/Cake Art Collective Logo Mono White.png';
+
 // Background image for teal sections
 import tealBg from '../assets/images/wedding-cakes/sugar-dahlia-pink-white-realistic-detail.jpg';
 ---
@@ -32,7 +35,14 @@ import tealBg from '../assets/images/wedding-cakes/sugar-dahlia-pink-white-reali
     <div class="max-w-7xl mx-auto px-6 py-20 md:py-32">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <div>
-          <Flourish variant="light" class="justify-start py-4 mb-4" />
+          <div class="flex justify-center -mt-6 md:-mt-14 lg:-mt-28 mb-10 md:mb-14 lg:mb-16">
+            <Image
+              src={monogram}
+              alt="Cake Art Collective monogram"
+              width={120}
+              class="opacity-90 -translate-x-14"
+            />
+          </div>
           <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-bg mb-6">
             Life is short.<br />Make it sweet.
           </h1>
@@ -65,8 +75,33 @@ import tealBg from '../assets/images/wedding-cakes/sugar-dahlia-pink-white-reali
   <!-- Torn paper edge from dark into cream -->
   <PaintedEdge fill="#F7F5EE" />
 
+  <!-- Intro -->
+  <section class="max-w-7xl mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-16">
+    <div class="max-w-3xl">
+      <p class="font-accent text-4xl md:text-5xl text-primary mb-3">welcome</p>
+      <h2 class="font-heading text-3xl md:text-4xl text-text mb-8">The art of Cake....</h2>
+      <p class="text-text-secondary text-lg leading-relaxed mb-6">
+        Cake Art Collective is the studio of Lisa Davidge, based in Ringwood on the edge of the New Forest. For me, cake has always been a creative medium — a way to sculpt, paint, and bring ideas to life. Every piece I make is designed and finished entirely by hand.
+      </p>
+      <p class="text-text-secondary text-lg leading-relaxed">
+        I also love sharing that creativity through hands-on decorating classes at Belinda's Tearooms in Fordingbridge — whether you're a complete beginner or looking to develop your own artistic skills.
+      </p>
+    </div>
+  </section>
+
+  <!-- Gallery intro -->
+  <section class="max-w-7xl mx-auto px-6 pb-8 md:pb-12">
+    <div class="max-w-2xl">
+      <p class="font-accent text-4xl md:text-5xl text-primary mb-3">selected work</p>
+      <h2 class="font-heading text-3xl md:text-4xl text-text mb-6">A taste of what I do</h2>
+      <p class="text-text-secondary text-lg leading-relaxed">
+        From sculpted showpieces to elegant tiered wedding cakes — every piece is designed and finished entirely by hand.
+      </p>
+    </div>
+  </section>
+
   <!-- Featured Work — gallery wall -->
-  <section class="max-w-7xl mx-auto px-6 py-16 md:py-24">
+  <section class="max-w-7xl mx-auto px-6 pb-16 pt-4 md:pb-24 md:pt-8">
     <div class="gallery-wall">
       <!-- Col 1: Dragon, Dahlia, Trio wedding -->
       <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-lg block">
@@ -165,8 +200,7 @@ import tealBg from '../assets/images/wedding-cakes/sugar-dahlia-pink-white-reali
   <!-- About / Intro -->
   <section class="max-w-7xl mx-auto px-6 py-16 md:py-28">
     <div class="max-w-3xl">
-      <Flourish class="justify-start mb-8" />
-      <p class="font-accent text-3xl md:text-4xl text-primary mb-3">the story so far</p>
+      <p class="font-accent text-4xl md:text-5xl text-primary mb-3">the story so far</p>
       <h2 class="font-heading text-3xl md:text-4xl text-text mb-8">About me</h2>
       <p class="text-text-secondary text-lg leading-relaxed mb-6">
         I'm Lisa. I've spent over a decade making cakes — sculpting, painting, and building things that people don't want to cut into.
@@ -189,7 +223,7 @@ import tealBg from '../assets/images/wedding-cakes/sugar-dahlia-pink-white-reali
     </div>
     <div class="max-w-7xl mx-auto px-6 py-16 md:py-28 text-center">
       <Flourish variant="light" class="mb-4" />
-      <p class="font-accent text-3xl md:text-4xl text-primary-light mb-3">let's create something</p>
+      <p class="font-accent text-4xl md:text-5xl text-primary-light mb-3">let's create something</p>
       <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-6">
         Every cake starts with a conversation
       </h2>

@@ -4,10 +4,10 @@ export const siteConfig = {
   description:
     'Bespoke cake art commissions and hands-on cake decorating classes. Explore cake as a creative medium for artistic expression.',
   url: 'https://cakeartcollective.com',
-  email: 'hello@cakeartcollective.com',
+  email: 'cakeartcollective@gmail.com',
   social: {
-    instagram: 'https://instagram.com/cakeartcollective',
-    facebook: 'https://facebook.com/cakeartcollective',
+    instagram: 'https://www.instagram.com/cake_art_collective/',
+    facebook: 'https://www.facebook.com/cakeartcollective/',
   },
   nav: [
     { label: 'Home', href: '/' },
