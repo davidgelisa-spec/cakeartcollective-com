@@ -7,7 +7,14 @@
       "Bash(/tmp/check_weddings.sh)",
       "Bash(/tmp/report.txt:*)",
       "Bash(npx astro check:*)",
-      "Bash(if [ ! -f \"/Users/lisadavidge/Desktop/cakeartcollective-com/src/assets/images/$f\" ])"
+      "Bash(if [ ! -f \"/Users/lisadavidge/Desktop/cakeartcollective-com/src/assets/images/$f\" ])",
+      "WebFetch(domain:docs.astro.build)",
+      "Bash(npm install:*)",
+      "Bash(npx tsx:*)",
+      "Bash(openssl rand:*)",
+      "Bash(curl:*)",
+      "Bash(python3 -m json.tool:*)",
+      "Bash(python3:*)"
     ]
   }
 }

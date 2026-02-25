@@ -17,5 +17,6 @@ export const siteConfig = {
     { label: 'Tutorials', href: '/tutorials/' },
     { label: 'Weddings', href: '/gallery/weddings/' },
     { label: 'Contact', href: '/contact/' },
+    { label: 'Members Area', href: '/members/' },
   ],
 } as const;

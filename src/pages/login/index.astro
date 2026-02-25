@@ -1,0 +1,81 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// If already logged in, redirect to members
+const cookieHeader = Astro.request.headers.get('cookie');
+const sessionSecret = (Astro.locals as any).runtime?.env?.SESSION_SECRET
+  ?? import.meta.env.SESSION_SECRET;
+
+if (cookieHeader && sessionSecret) {
+  const { getSessionCookie, verifySessionToken } = await import('../../lib/auth');
+  const token = getSessionCookie(cookieHeader);
+  if (token) {
+    const session = await verifySessionToken(token, sessionSecret);
+    if (session) {
+      return Astro.redirect('/members/');
+    }
+  }
+}
+
+const error = Astro.url.searchParams.get('error');
+---
+
+<BaseLayout title="Members Area — Login" description="Log in to the Cake Art Collective members area.">
+  <section class="min-h-[70vh] flex items-center justify-center px-6 py-20">
+    <div class="w-full max-w-sm">
+      <h1 class="text-3xl md:text-4xl mb-2 text-center">Members Area</h1>
+      <p class="text-text-secondary text-center text-sm mb-12">Sign in to continue</p>
+
+      {error && (
+        <div class="mb-8 text-sm text-red-700 bg-red-50 border border-red-200 px-4 py-3 rounded">
+          {error === 'invalid' && 'Invalid email or password. Please try again.'}
+          {error === 'missing' && 'Please enter both email and password.'}
+          {error === 'server' && 'Something went wrong. Please try again.'}
+        </div>
+      )}
+
+      <form method="POST" action="/api/auth/login/" class="space-y-8">
+        <div>
+          <label for="email" class="block text-[11px] tracking-[0.2em] uppercase text-text-secondary mb-3">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            autocomplete="email"
+            class="w-full bg-transparent border-0 border-b border-border py-2 text-text placeholder:text-text-secondary/40 focus:border-primary focus:outline-none transition-colors"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <div>
+          <label for="password" class="block text-[11px] tracking-[0.2em] uppercase text-text-secondary mb-3">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            autocomplete="current-password"
+            class="w-full bg-transparent border-0 border-b border-border py-2 text-text placeholder:text-text-secondary/40 focus:border-primary focus:outline-none transition-colors"
+            placeholder="Enter your password"
+          />
+        </div>
+
+        <div class="pt-4">
+          <button
+            type="submit"
+            class="w-full text-[11px] tracking-[0.2em] uppercase border-b-2 border-primary py-3 text-text hover:text-primary transition-colors cursor-pointer"
+          >
+            Sign In
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,403 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSitesForPilot, STATUS_COLOURS } from '../../lib/airtable';
+import type { AirtableSite } from '../../lib/airtable';
+
+const session = (Astro.locals as any).session;
+const pilotName = session?.name ?? 'Pilot';
+const pilotEmail = session?.email ?? '';
+
+// Get Airtable env vars
+const runtime = (Astro.locals as any).runtime;
+const airtableEnv = {
+  AIRTABLE_PAT: runtime?.env?.AIRTABLE_PAT ?? import.meta.env.AIRTABLE_PAT,
+  AIRTABLE_BASE_ID: runtime?.env?.AIRTABLE_BASE_ID ?? import.meta.env.AIRTABLE_BASE_ID,
+};
+
+let sites: AirtableSite[] = [];
+let error: string | null = null;
+
+try {
+  if (airtableEnv.AIRTABLE_PAT && airtableEnv.AIRTABLE_BASE_ID) {
+    sites = await getSitesForPilot(pilotName, airtableEnv);
+  } else {
+    error = 'Airtable is not configured yet. Please set AIRTABLE_PAT and AIRTABLE_BASE_ID environment variables.';
+  }
+} catch (e) {
+  console.error('Failed to fetch sites:', e);
+  error = 'Failed to load sites. Please try refreshing the page.';
+}
+
+// Group sites by status for display
+const statusOrder = [
+  'Ready', 'Scheduled', 'RAMS Sent', 'RAMS To send',
+  'Awaiting Assignment', 'Flown', 'Processing', 'Hold',
+];
+
+function formatDate(dateStr: string | null): string {
+  if (!dateStr) return '—';
+  try {
+    return new Date(dateStr).toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'short', year: 'numeric',
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+function todayISO(): string {
+  return new Date().toISOString().split('T')[0];
+}
+
+function ensureUrl(url: string | null): string | null {
+  if (!url) return null;
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  return `https://${url}`;
+}
+
+// Sort sites by status order, then by target visit date
+const sortedSites = [...sites].sort((a, b) => {
+  const aIdx = statusOrder.indexOf(a.approvalStatus);
+  const bIdx = statusOrder.indexOf(b.approvalStatus);
+  const aOrder = aIdx >= 0 ? aIdx : 99;
+  const bOrder = bIdx >= 0 ? bIdx : 99;
+  if (aOrder !== bOrder) return aOrder - bOrder;
+  // Within same status, sort by target visit date
+  const aDate = a.targetVisitDate ?? '9999';
+  const bDate = b.targetVisitDate ?? '9999';
+  return aDate.localeCompare(bDate);
+});
+---
+
+<BaseLayout title="Pilot Dashboard — Members Area" description="View your assigned sites and update progress.">
+  <section class="max-w-6xl mx-auto px-6 py-12 md:py-16">
+    <!-- Header -->
+    <div class="flex items-start justify-between mb-12">
+      <div>
+        <h1 class="text-3xl md:text-4xl mb-1 font-accent">Welcome, {pilotName.split(' ')[0]}</h1>
+        <p class="text-text-secondary text-sm">{sites.length} active site{sites.length !== 1 ? 's' : ''} assigned</p>
+      </div>
+      <form method="POST" action="/api/auth/logout/">
+        <button
+          type="submit"
+          class="text-[11px] tracking-[0.2em] uppercase text-text-secondary hover:text-primary transition-colors border-b border-transparent hover:border-primary cursor-pointer"
+        >
+          Sign Out
+        </button>
+      </form>
+    </div>
+
+    {error && (
+      <div class="mb-8 text-sm text-red-700 bg-red-50 border border-red-200 px-4 py-3 rounded">
+        {error}
+      </div>
+    )}
+
+    {/* Success/error toast container — populated by JS */}
+    <div id="toast" class="fixed top-6 right-6 z-50 hidden">
+      <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded text-sm shadow-sm">
+        <span id="toast-message"></span>
+      </div>
+    </div>
+
+    {sites.length === 0 && !error && (
+      <div class="text-center py-20">
+        <p class="text-text-secondary text-lg">No sites assigned to you at the moment.</p>
+        <p class="text-text-secondary text-sm mt-2">Check back later or contact the office.</p>
+      </div>
+    )}
+
+    {/* Sites list */}
+    <div class="space-y-6">
+      {sortedSites.map((site) => {
+        const colours = STATUS_COLOURS[site.approvalStatus] ?? { bg: 'bg-gray-100', text: 'text-gray-600' };
+        const canSchedule = site.approvalStatus === 'Ready';
+        const canMarkFlown = site.approvalStatus === 'Scheduled';
+        const canUploadData = site.approvalStatus === 'Flown';
+        // H&S button shows from RAMS To send onwards — pilots complete induction while RAMS is being prepared
+        const hsEligibleStatuses = ['RAMS To send', 'RAMS Sent', 'Ready', 'Scheduled'];
+        const canConfirmHS = hsEligibleStatuses.includes(site.approvalStatus) && !site.hsCompletedDate;
+        const isOnHold = site.approvalStatus === 'Hold';
+
+        return (
+          <div class="border-b border-border pb-6" data-site-id={site.id}>
+            {/* Site header row */}
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-4">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-3 flex-wrap">
+                  <h2 class="text-lg font-body font-normal tracking-normal" style="font-style: normal;">{site.siteName}</h2>
+                  <span class={`inline-block text-[10px] tracking-[0.15em] uppercase px-2.5 py-0.5 rounded-full ${colours.bg} ${colours.text}`}>
+                    {site.approvalStatus}
+                  </span>
+                </div>
+                <p class="text-text-secondary text-sm mt-1">{site.postcode}</p>
+              </div>
+            </div>
+
+            {/* Site details grid — actions are inline where the data displays */}
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-3 text-sm mb-4">
+              <div>
+                <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">O&M</span>
+                <span class="text-text">{site.omName || '—'}</span>
+              </div>
+              {/* Scheduling Window — Monday-only date picker when Ready */}
+              <div>
+                <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">
+                  {canSchedule ? 'Select week commencing date' : 'Scheduling Window'}
+                </span>
+                {site.schedulingWindow ? (
+                  <span class="text-text">{site.schedulingWindow}</span>
+                ) : canSchedule ? (
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <input
+                      type="date"
+                      step="7"
+                      min="2026-02-23"
+                      class="bg-primary/5 border border-dashed border-primary/40 rounded px-2 py-1 text-sm text-primary focus:border-primary focus:bg-primary/10 focus:outline-none transition-colors cursor-pointer w-[140px]"
+                      data-action="schedule"
+                      data-site={site.id}
+                    />
+                    <button
+                      type="button"
+                      class="text-[10px] tracking-[0.1em] uppercase bg-primary text-white px-2 py-1 rounded hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                      data-action-btn="schedule"
+                      data-site={site.id}
+                    >
+                      Confirm
+                  </div>
+                ) : (
+                  <span class="text-text-secondary">—</span>
+                )}
+              </div>
+
+              {/* Date Flown — tap-to-confirm button when actionable */}
+              <div>
+                <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">Date Flown</span>
+                {site.dateFlown ? (
+                  <span class="text-text">{formatDate(site.dateFlown)}</span>
+                ) : canMarkFlown ? (
+                  <button
+                    type="button"
+                    class="mt-0.5 text-sm bg-primary/5 border border-dashed border-primary/40 text-primary rounded px-3 py-1 hover:bg-primary/10 hover:border-primary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    data-action-btn="flown"
+                    data-site={site.id}
+                  >
+                    Tap to mark flown
+                  </button>
+                ) : (
+                  <span class="text-text-secondary">—</span>
+                )}
+              </div>
+
+              {/* H&S Completed — tap-to-confirm when actionable */}
+              <div>
+                <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">H&S Completed</span>
+                {site.hsCompletedDate ? (
+                  <span class="text-text">{formatDate(site.hsCompletedDate)}</span>
+                ) : canConfirmHS ? (
+                  <button
+                    type="button"
+                    class="mt-0.5 text-sm bg-primary/5 border border-dashed border-primary/40 text-primary rounded px-3 py-1 hover:bg-primary/10 hover:border-primary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    data-action-btn="hs-completed"
+                    data-site={site.id}
+                  >
+                    Tap to confirm
+                  </button>
+                ) : (
+                  <span class="text-text-secondary">—</span>
+                )}
+              </div>
+
+              {/* Data Uploaded — confirm when Flown */}
+              {(site.dataUploaded || canUploadData) && (
+                <div>
+                  <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">Data Uploaded</span>
+                  {site.dataUploaded ? (
+                    <span class="text-text">{formatDate(site.dataUploaded)}</span>
+                  ) : (
+                    <button
+                      type="button"
+                      class="mt-0.5 text-sm bg-primary/5 border border-dashed border-primary/40 text-primary rounded px-3 py-1 hover:bg-primary/10 hover:border-primary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                      data-action-btn="data-uploaded"
+                      data-site={site.id}
+                    >
+                      Confirm data uploaded
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {site.peakPowerKwp && (
+                <div>
+                  <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">Peak Power</span>
+                  <span class="text-text">{site.peakPowerKwp} kWp</span>
+                </div>
+              )}
+            </div>
+
+            {/* Hold reason */}
+            {isOnHold && site.holdReason && (
+              <div class="text-sm mb-4 bg-purple-50 px-4 py-3 rounded">
+                <span class="text-[10px] tracking-[0.15em] uppercase text-purple-700 block mb-1">Hold Reason</span>
+                <p class="text-purple-800 text-xs">{site.holdReason}</p>
+              </div>
+            )}
+
+            {/* Notes */}
+            {site.notes && (
+              <div class="text-sm mb-4">
+                <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block mb-1">Notes</span>
+                <p class="text-text-secondary text-xs leading-relaxed">{site.notes}</p>
+              </div>
+            )}
+
+            {/* Links row */}
+            <div class="flex flex-wrap gap-4 text-[11px] tracking-[0.15em] uppercase mb-4">
+              {site.weatherForecast && (
+                <a href={ensureUrl(site.weatherForecast)} target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-dark border-b border-primary/30 hover:border-primary transition-colors">
+                  Weather
+                </a>
+              )}
+              {site.googleMapsLink && (
+                <a href={ensureUrl(site.googleMapsLink)} target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-dark border-b border-primary/30 hover:border-primary transition-colors">
+                  Maps
+                </a>
+              )}
+              {site.ramsLink && (
+                <a href={ensureUrl(site.ramsLink)} target="_blank" rel="noopener noreferrer" class="text-primary hover:text-primary-dark border-b border-primary/30 hover:border-primary transition-colors">
+                  RAMS
+                </a>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <script>
+    function showToast(message: string, isError = false) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      if (!toast || !toastMsg) return;
+
+      const inner = toast.querySelector('div')!;
+      inner.className = isError
+        ? 'bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded text-sm shadow-sm'
+        : 'bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded text-sm shadow-sm';
+      toastMsg.textContent = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 4000);
+    }
+
+    async function updateSite(siteId: string, fields: Record<string, string>) {
+      const res = await fetch(`/api/sites/${siteId}/`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: 'Update failed' }));
+        throw new Error(data.error || 'Update failed');
+      }
+
+      return res.json();
+    }
+
+    function todayISO(): string {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    // Confirm scheduled with week commencing date (Monday only)
+    document.querySelectorAll<HTMLButtonElement>('[data-action-btn="schedule"]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const siteId = btn.dataset.site!;
+        const input = document.querySelector<HTMLInputElement>(`input[data-action="schedule"][data-site="${siteId}"]`);
+        const dateVal = input?.value;
+        if (!dateVal) {
+          showToast('Please select a date first.', true);
+          return;
+        }
+        // Validate it's a Monday (getDay() === 1)
+        const picked = new Date(dateVal + 'T00:00:00');
+        if (picked.getDay() !== 1) {
+          showToast('Please select a Monday.', true);
+          return;
+        }
+        const formatted = 'w/c ' + picked.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        if (!confirm(`Confirm scheduled: ${formatted}?`)) return;
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+        try {
+          await updateSite(siteId, { 'Scheduling Window': formatted, 'Approval Status': 'Scheduled' });
+          showToast('Marked as scheduled. Page will refresh.');
+          setTimeout(() => location.reload(), 1500);
+        } catch (e: any) {
+          showToast(e.message, true);
+          btn.disabled = false;
+          btn.textContent = 'Confirm';
+        }
+      });
+    });
+
+    // Mark as flown
+    document.querySelectorAll<HTMLButtonElement>('[data-action-btn="flown"]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Mark this site as flown today?')) return;
+        const siteId = btn.dataset.site!;
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+        try {
+          await updateSite(siteId, { 'Flown Date': todayISO() });
+          showToast('Marked as flown. Page will refresh.');
+          setTimeout(() => location.reload(), 1500);
+        } catch (e: any) {
+          showToast(e.message, true);
+          btn.disabled = false;
+          btn.textContent = 'Mark as Flown';
+        }
+      });
+    });
+
+    // Data uploaded
+    document.querySelectorAll<HTMLButtonElement>('[data-action-btn="data-uploaded"]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Confirm data has been uploaded?')) return;
+        const siteId = btn.dataset.site!;
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+        try {
+          await updateSite(siteId, { 'Data Uploaded': todayISO() });
+          showToast('Data upload confirmed. Page will refresh.');
+          setTimeout(() => location.reload(), 1500);
+        } catch (e: any) {
+          showToast(e.message, true);
+          btn.disabled = false;
+          btn.textContent = 'Data Uploaded';
+        }
+      });
+    });
+
+    // H&S completed
+    document.querySelectorAll<HTMLButtonElement>('[data-action-btn="hs-completed"]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        if (!confirm('Confirm H&S induction has been completed?')) return;
+        const siteId = btn.dataset.site!;
+        btn.disabled = true;
+        btn.textContent = 'Saving...';
+        try {
+          await updateSite(siteId, { 'H&S Completed Date': todayISO() });
+          showToast('H&S completion confirmed. Page will refresh.');
+          setTimeout(() => location.reload(), 1500);
+        } catch (e: any) {
+          showToast(e.message, true);
+          btn.disabled = false;
+          btn.textContent = 'H&S Completed';
+        }
+      });
+    });
+  </script>
+</BaseLayout>
