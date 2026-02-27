@@ -112,7 +112,7 @@ const sortedSites = [...sites].sort((a, b) => {
         // Workflow: Awaiting Assignment → RAMS To send → RAMS Sent → Ready → Scheduled → Flown → Processing
         const canEditSchedule = site.approvalStatus === 'Ready';
         const canEditFlown = site.approvalStatus === 'Scheduled';
-        const canEditHS = ['RAMS To send', 'RAMS Sent', 'Ready', 'Scheduled'].includes(site.approvalStatus);
+        const canEditHS = ['Awaiting approval', 'RAMS To send', 'RAMS Sent', 'Ready', 'Scheduled'].includes(site.approvalStatus);
         const canUploadData = site.approvalStatus === 'Flown';
         const isOnHold = site.approvalStatus === 'Hold';
 
