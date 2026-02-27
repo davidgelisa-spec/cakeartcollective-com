@@ -47,10 +47,6 @@ function formatDate(dateStr: string | null): string {
   }
 }
 
-function todayISO(): string {
-  return new Date().toISOString().split('T')[0];
-}
-
 function ensureUrl(url: string | null): string | null {
   if (!url) return null;
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
@@ -113,12 +109,7 @@ const sortedSites = [...sites].sort((a, b) => {
     <div class="space-y-6">
       {sortedSites.map((site) => {
         const colours = STATUS_COLOURS[site.approvalStatus] ?? { bg: 'bg-gray-100', text: 'text-gray-600' };
-        const canSchedule = site.approvalStatus === 'Ready';
-        const canMarkFlown = site.approvalStatus === 'Scheduled';
         const canUploadData = site.approvalStatus === 'Flown';
-        // H&S button shows from RAMS To send onwards — pilots complete induction while RAMS is being prepared
-        const hsEligibleStatuses = ['RAMS To send', 'RAMS Sent', 'Ready', 'Scheduled'];
-        const canConfirmHS = hsEligibleStatuses.includes(site.approvalStatus) && !site.hsCompletedDate;
         const isOnHold = site.approvalStatus === 'Hold';
 
         return (
@@ -142,72 +133,40 @@ const sortedSites = [...sites].sort((a, b) => {
                 <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">O&M</span>
                 <span class="text-text">{site.omName || '—'}</span>
               </div>
-              {/* Scheduling Window — Monday-only date picker when Ready */}
+              {/* Scheduling Window — editable date picker */}
               <div>
-                <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">
-                  {canSchedule ? 'Select week commencing date' : 'Scheduling Window'}
-                </span>
-                {site.schedulingWindow ? (
-                  <span class="text-text">{site.schedulingWindow}</span>
-                ) : canSchedule ? (
-                  <div class="flex items-center gap-1.5 mt-0.5">
-                    <input
-                      type="date"
-                      step="7"
-                      min="2026-02-23"
-                      class="bg-primary/5 border border-dashed border-primary/40 rounded px-2 py-1 text-sm text-primary focus:border-primary focus:bg-primary/10 focus:outline-none transition-colors cursor-pointer w-[140px]"
-                      data-action="schedule"
-                      data-site={site.id}
-                    />
-                    <button
-                      type="button"
-                      class="text-[10px] tracking-[0.1em] uppercase bg-primary text-white px-2 py-1 rounded hover:bg-primary-dark transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                      data-action-btn="schedule"
-                      data-site={site.id}
-                    >
-                      Confirm
-                  </div>
-                ) : (
-                  <span class="text-text-secondary">—</span>
-                )}
+                <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">Scheduling Window</span>
+                <input
+                  type="date"
+                  value={site.schedulingWindow ?? ''}
+                  class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
+                  data-date-field="Scheduling Window"
+                  data-site={site.id}
+                />
               </div>
 
-              {/* Date Flown — tap-to-confirm button when actionable */}
+              {/* Date Flown — editable date picker */}
               <div>
                 <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">Date Flown</span>
-                {site.dateFlown ? (
-                  <span class="text-text">{formatDate(site.dateFlown)}</span>
-                ) : canMarkFlown ? (
-                  <button
-                    type="button"
-                    class="mt-0.5 text-sm bg-primary/5 border border-dashed border-primary/40 text-primary rounded px-3 py-1 hover:bg-primary/10 hover:border-primary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    data-action-btn="flown"
-                    data-site={site.id}
-                  >
-                    Tap to mark flown
-                  </button>
-                ) : (
-                  <span class="text-text-secondary">—</span>
-                )}
+                <input
+                  type="date"
+                  value={site.dateFlown ?? ''}
+                  class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
+                  data-date-field="Flown Date"
+                  data-site={site.id}
+                />
               </div>
 
-              {/* H&S Completed — tap-to-confirm when actionable */}
+              {/* H&S Completed — editable date picker */}
               <div>
                 <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">H&S Completed</span>
-                {site.hsCompletedDate ? (
-                  <span class="text-text">{formatDate(site.hsCompletedDate)}</span>
-                ) : canConfirmHS ? (
-                  <button
-                    type="button"
-                    class="mt-0.5 text-sm bg-primary/5 border border-dashed border-primary/40 text-primary rounded px-3 py-1 hover:bg-primary/10 hover:border-primary transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    data-action-btn="hs-completed"
-                    data-site={site.id}
-                  >
-                    Tap to confirm
-                  </button>
-                ) : (
-                  <span class="text-text-secondary">—</span>
-                )}
+                <input
+                  type="date"
+                  value={site.hsCompletedDate ?? ''}
+                  class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
+                  data-date-field="H&S Completed Date"
+                  data-site={site.id}
+                />
               </div>
 
               {/* Data Uploaded — confirm when Flown */}
@@ -311,58 +270,25 @@ const sortedSites = [...sites].sort((a, b) => {
       return new Date().toISOString().split('T')[0];
     }
 
-    // Confirm scheduled with week commencing date (Monday only)
-    document.querySelectorAll<HTMLButtonElement>('[data-action-btn="schedule"]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        const siteId = btn.dataset.site!;
-        const input = document.querySelector<HTMLInputElement>(`input[data-action="schedule"][data-site="${siteId}"]`);
-        const dateVal = input?.value;
-        if (!dateVal) {
-          showToast('Please select a date first.', true);
-          return;
-        }
-        // Validate it's a Monday (getDay() === 1)
-        const picked = new Date(dateVal + 'T00:00:00');
-        if (picked.getDay() !== 1) {
-          showToast('Please select a Monday.', true);
-          return;
-        }
-        const formatted = 'w/c ' + picked.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-        if (!confirm(`Confirm scheduled: ${formatted}?`)) return;
-        btn.disabled = true;
-        btn.textContent = 'Saving...';
+    // Editable date fields — save immediately on change
+    document.querySelectorAll<HTMLInputElement>('[data-date-field]').forEach((input) => {
+      input.addEventListener('change', async () => {
+        const siteId = input.dataset.site!;
+        const fieldName = input.dataset.dateField!;
+        const dateVal = input.value; // ISO format YYYY-MM-DD or empty
+        input.disabled = true;
         try {
-          await updateSite(siteId, { 'Scheduling Window': formatted, 'Approval Status': 'Scheduled' });
-          showToast('Marked as scheduled. Page will refresh.');
-          setTimeout(() => location.reload(), 1500);
+          await updateSite(siteId, { [fieldName]: dateVal || null });
+          showToast(`${fieldName} updated.`);
         } catch (e: any) {
           showToast(e.message, true);
-          btn.disabled = false;
-          btn.textContent = 'Confirm';
+        } finally {
+          input.disabled = false;
         }
       });
     });
 
-    // Mark as flown
-    document.querySelectorAll<HTMLButtonElement>('[data-action-btn="flown"]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        if (!confirm('Mark this site as flown today?')) return;
-        const siteId = btn.dataset.site!;
-        btn.disabled = true;
-        btn.textContent = 'Saving...';
-        try {
-          await updateSite(siteId, { 'Flown Date': todayISO() });
-          showToast('Marked as flown. Page will refresh.');
-          setTimeout(() => location.reload(), 1500);
-        } catch (e: any) {
-          showToast(e.message, true);
-          btn.disabled = false;
-          btn.textContent = 'Mark as Flown';
-        }
-      });
-    });
-
-    // Data uploaded
+    // Data uploaded — confirm button
     document.querySelectorAll<HTMLButtonElement>('[data-action-btn="data-uploaded"]').forEach((btn) => {
       btn.addEventListener('click', async () => {
         if (!confirm('Confirm data has been uploaded?')) return;
@@ -376,26 +302,7 @@ const sortedSites = [...sites].sort((a, b) => {
         } catch (e: any) {
           showToast(e.message, true);
           btn.disabled = false;
-          btn.textContent = 'Data Uploaded';
-        }
-      });
-    });
-
-    // H&S completed
-    document.querySelectorAll<HTMLButtonElement>('[data-action-btn="hs-completed"]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        if (!confirm('Confirm H&S induction has been completed?')) return;
-        const siteId = btn.dataset.site!;
-        btn.disabled = true;
-        btn.textContent = 'Saving...';
-        try {
-          await updateSite(siteId, { 'H&S Completed Date': todayISO() });
-          showToast('H&S completion confirmed. Page will refresh.');
-          setTimeout(() => location.reload(), 1500);
-        } catch (e: any) {
-          showToast(e.message, true);
-          btn.disabled = false;
-          btn.textContent = 'H&S Completed';
+          btn.textContent = 'Confirm data uploaded';
         }
       });
     });
