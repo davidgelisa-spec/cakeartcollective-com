@@ -109,6 +109,10 @@ const sortedSites = [...sites].sort((a, b) => {
     <div class="space-y-6">
       {sortedSites.map((site) => {
         const colours = STATUS_COLOURS[site.approvalStatus] ?? { bg: 'bg-gray-100', text: 'text-gray-600' };
+        // Workflow: Awaiting Assignment → RAMS To send → RAMS Sent → Ready → Scheduled → Flown → Processing
+        const canEditSchedule = site.approvalStatus === 'Ready';
+        const canEditFlown = site.approvalStatus === 'Scheduled';
+        const canEditHS = ['RAMS To send', 'RAMS Sent', 'Ready', 'Scheduled'].includes(site.approvalStatus);
         const canUploadData = site.approvalStatus === 'Flown';
         const isOnHold = site.approvalStatus === 'Hold';
 
@@ -133,40 +137,52 @@ const sortedSites = [...sites].sort((a, b) => {
                 <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">O&M</span>
                 <span class="text-text">{site.omName || '—'}</span>
               </div>
-              {/* Scheduling Window — editable date picker */}
+              {/* Scheduling Window — editable when Ready or Scheduled */}
               <div>
                 <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">Scheduling Window</span>
-                <input
-                  type="date"
-                  value={site.schedulingWindow ?? ''}
-                  class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
-                  data-date-field="Scheduling Window"
-                  data-site={site.id}
-                />
+                {canEditSchedule ? (
+                  <input
+                    type="date"
+                    value={site.schedulingWindow ?? ''}
+                    class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
+                    data-date-field="Scheduling Window"
+                    data-site={site.id}
+                  />
+                ) : (
+                  <span class="text-text">{site.schedulingWindow ? formatDate(site.schedulingWindow) : '—'}</span>
+                )}
               </div>
 
-              {/* Date Flown — editable date picker */}
+              {/* Date Flown — editable when Scheduled */}
               <div>
                 <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">Date Flown</span>
-                <input
-                  type="date"
-                  value={site.dateFlown ?? ''}
-                  class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
-                  data-date-field="Flown Date"
-                  data-site={site.id}
-                />
+                {canEditFlown ? (
+                  <input
+                    type="date"
+                    value={site.dateFlown ?? ''}
+                    class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
+                    data-date-field="Flown Date"
+                    data-site={site.id}
+                  />
+                ) : (
+                  <span class="text-text">{site.dateFlown ? formatDate(site.dateFlown) : '—'}</span>
+                )}
               </div>
 
-              {/* H&S Completed — editable date picker */}
+              {/* H&S Completed — editable from RAMS To send through Scheduled */}
               <div>
                 <span class="text-[10px] tracking-[0.15em] uppercase text-text-secondary block">H&S Completed</span>
-                <input
-                  type="date"
-                  value={site.hsCompletedDate ?? ''}
-                  class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
-                  data-date-field="H&S Completed Date"
-                  data-site={site.id}
-                />
+                {canEditHS ? (
+                  <input
+                    type="date"
+                    value={site.hsCompletedDate ?? ''}
+                    class="bg-transparent border-0 border-b border-border py-1 text-sm text-text focus:border-primary focus:outline-none transition-colors cursor-pointer w-[140px]"
+                    data-date-field="H&S Completed Date"
+                    data-site={site.id}
+                  />
+                ) : (
+                  <span class="text-text">{site.hsCompletedDate ? formatDate(site.hsCompletedDate) : '—'}</span>
+                )}
               </div>
 
               {/* Data Uploaded — confirm when Flown */}
@@ -251,7 +267,7 @@ const sortedSites = [...sites].sort((a, b) => {
       setTimeout(() => toast.classList.add('hidden'), 4000);
     }
 
-    async function updateSite(siteId: string, fields: Record<string, string>) {
+    async function updateSite(siteId: string, fields: Record<string, string | null>) {
       const res = await fetch(`/api/sites/${siteId}/`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
