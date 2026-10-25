@@ -2,7 +2,7 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import {
-  authenticatePilot,
+  authenticateMember,
   createSessionToken,
   setSessionCookie,
 } from '../../../lib/auth';
@@ -11,7 +11,7 @@ export const POST: APIRoute = async ({ request, redirect, locals }) => {
   try {
     const runtime = (locals as any).runtime;
     const env = {
-      PILOT_CREDENTIALS: runtime?.env?.PILOT_CREDENTIALS ?? import.meta.env.PILOT_CREDENTIALS,
+      MEMBER_CREDENTIALS: runtime?.env?.MEMBER_CREDENTIALS ?? import.meta.env.MEMBER_CREDENTIALS,
       SESSION_SECRET: runtime?.env?.SESSION_SECRET ?? import.meta.env.SESSION_SECRET,
     };
 
@@ -37,15 +37,15 @@ export const POST: APIRoute = async ({ request, redirect, locals }) => {
       return redirect('/login/?error=missing');
     }
 
-    const pilot = await authenticatePilot(email, password, {
-      PILOT_CREDENTIALS: env.PILOT_CREDENTIALS,
+    const member = await authenticateMember(email, password, {
+      MEMBER_CREDENTIALS: env.MEMBER_CREDENTIALS,
     });
 
-    if (!pilot) {
+    if (!member) {
       return redirect('/login/?error=invalid');
     }
 
-    const token = await createSessionToken(pilot.email, pilot.name, env.SESSION_SECRET);
+    const token = await createSessionToken(member.email, member.name, env.SESSION_SECRET);
     const cookie = setSessionCookie(token);
 
     return new Response(null, {

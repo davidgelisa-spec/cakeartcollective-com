@@ -1,43 +1,56 @@
-# Astro Starter Kit: Minimal
+# [Project Name]
 
-```sh
-npm create astro@latest -- --template minimal
+[Brief description of what this project does and why it exists.]
+
+## Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Run locally
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Overview
 
-## 🚀 Project Structure
+[2-3 paragraphs explaining the project's purpose, audience, and current status.]
 
-Inside of your Astro project, you'll see the following folders and files:
+## Key Files
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+| Path | Purpose |
+| --- | --- |
+| `src/` | Source code |
+| `docs/` | Architecture and technical documentation |
+| `AGENTS.md` | Canonical instructions for AI coding agents (Claude Code, Codex, Cursor) |
+| `CLAUDE.md` | One-line `@AGENTS.md` import — same content, picked up by Claude Code |
+| `.mcp.json` | Project-scoped MCP servers |
+| `seo/` | SEO research, strategy, and performance log (site projects only) |
+| `brand/` | Brand guidelines and assets (when applicable) |
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Deployment
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+[How and where this project is deployed.]
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Links
 
-## 🧞 Commands
+- **Live site:** [URL]
+- **Repository:** [URL]
 
-All commands are run from the root of the project, from a terminal:
+## Project Structure
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+This project follows a standardized folder layout for organization:
 
-## 👀 Want to learn more?
+- \`_inbox/\`: Temporary staging for raw files to be processed.
+- \`_cowork/\`: Co-Work workspace for research, planning, analysis.
+- \`audits/\`: Audit reports (dated), with \`archive/\` for older ones.
+- \`docs/\`: Architecture notes, API references, technical documentation.
+- \`brand/\`: Brand guidelines, voice, palette, logos (if applicable).
+- \`seo/\`: SEO research, strategy, performance logs (for site projects).
+- \`src/\`: Source code (existing).
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+For full details, see [AGENTS.md](AGENTS.md).
+

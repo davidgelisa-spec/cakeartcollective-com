@@ -1,5 +1,5 @@
 /**
- * Password hashing utility for creating pilot credentials.
+ * Password hashing utility for creating members-area credentials.
  * Run with: npx tsx scripts/hash-password.ts
  *
  * Usage:
@@ -9,7 +9,7 @@
  *   npx tsx scripts/hash-password.ts "mypassword"
  *   (hash a password directly)
  *
- * Output: JSON object with hash and salt to add to PILOT_CREDENTIALS env var.
+ * Output: JSON object with hash and salt to add to MEMBER_CREDENTIALS env var.
  */
 
 const PBKDF2_ITERATIONS = 100_000;
@@ -73,26 +73,20 @@ async function main() {
 
   const { hash, salt } = await hashPassword(password);
 
-  console.log('\n--- Copy these values into your PILOT_CREDENTIALS env var ---\n');
+  console.log('\n--- Copy these values into your MEMBER_CREDENTIALS env var ---\n');
   console.log(JSON.stringify({ passwordHash: hash, salt }, null, 2));
   console.log('\n--- Full credential entry example ---\n');
   console.log(
     JSON.stringify(
       {
-        email: 'pilot@example.com',
-        name: 'Pilot Name',
+        email: 'member@example.com',
+        name: 'Member Name',
         passwordHash: hash,
         salt,
       },
       null,
       2
     )
-  );
-  console.log(
-    '\nIMPORTANT: The "name" field must match EXACTLY what appears in the'
-  );
-  console.log(
-    'Airtable "Pilot name text" field (including spacing and capitalisation).'
   );
 }
 

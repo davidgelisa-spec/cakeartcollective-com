@@ -1,11 +1,11 @@
 /**
- * Authentication utilities for the pilot portal.
+ * Authentication utilities for the Cake Art Collective members area.
  * Uses Web Crypto API (PBKDF2 + HMAC-SHA256) — compatible with Cloudflare Workers.
  */
 
 // --- Types ---
 
-interface PilotCredential {
+interface MemberCredential {
   email: string;
   name: string;
   passwordHash: string;
@@ -92,30 +92,30 @@ export async function verifyPassword(
 
 // --- Credential Lookup ---
 
-export function getCredentials(env: { PILOT_CREDENTIALS?: string }): PilotCredential[] {
-  const raw = env.PILOT_CREDENTIALS;
+export function getCredentials(env: { MEMBER_CREDENTIALS?: string }): MemberCredential[] {
+  const raw = env.MEMBER_CREDENTIALS;
   if (!raw) return [];
   try {
     return JSON.parse(raw);
   } catch {
-    console.error('Failed to parse PILOT_CREDENTIALS');
+    console.error('Failed to parse MEMBER_CREDENTIALS');
     return [];
   }
 }
 
-export async function authenticatePilot(
+export async function authenticateMember(
   email: string,
   password: string,
-  env: { PILOT_CREDENTIALS?: string }
-): Promise<PilotCredential | null> {
+  env: { MEMBER_CREDENTIALS?: string }
+): Promise<MemberCredential | null> {
   const credentials = getCredentials(env);
-  const pilot = credentials.find(
+  const member = credentials.find(
     (c) => c.email.toLowerCase() === email.toLowerCase()
   );
-  if (!pilot) return null;
+  if (!member) return null;
 
-  const valid = await verifyPassword(password, pilot.passwordHash, pilot.salt);
-  return valid ? pilot : null;
+  const valid = await verifyPassword(password, member.passwordHash, member.salt);
+  return valid ? member : null;
 }
 
 // --- Session Tokens (HMAC-SHA256 signed) ---
@@ -185,7 +185,7 @@ export async function verifySessionToken(
 
 // --- Cookie Helpers ---
 
-export const SESSION_COOKIE_NAME = 'pilot_session';
+export const SESSION_COOKIE_NAME = 'cac_member_session';
 
 export function setSessionCookie(token: string): string {
   const maxAge = 7 * 24 * 60 * 60; // 7 days in seconds

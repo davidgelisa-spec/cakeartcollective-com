@@ -1,48 +1,52 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { Image } from 'astro:assets';
-import Flourish from '../../../components/ui/Flourish.astro';
-import PaintedEdge from '../../../components/ui/PaintedEdge.astro';
+import GalleryGrid from '../../../components/ui/GalleryGrid.astro';
+import Lightbox from '../../../components/ui/Lightbox.astro';
 
 // Wedding Cakes — imports match the wedding-cakes/ folder
-import fourTierDahlias from '../../../assets/images/wedding-cakes/four-tier-wedding-cake-dahlias-burgundy-foliage.jpeg';
-import threeTierPeony from '../../../assets/images/wedding-cakes/three-tier-cake-pink-peony-blue-delphiniums.jpg';
-import fuchsiaDahlia from '../../../assets/images/Featured on front page/two-tier-cake-fuchsia-dahlia-white-roses.jpg';
-import yellowDahlias from '../../../assets/images/wedding-cakes/two-tier-yellow-cake-pink-dahlias-cream-roses.jpg';
-import singleTierPink from '../../../assets/images/wedding-cakes/single-tier-wedding-cakes-cream-pink-burgundy.jpeg';
-import yellowOrangeRoses from '../../../assets/images/wedding-cakes/single-tier-yellow-cake-cream-orange-roses.jpeg';
-import sugarPeonies from '../../../assets/images/wedding-cakes/three-tier-cake-oversized-sugar-peonies-gold.jpeg';
-import dahliasCornflowers from '../../../assets/images/wedding-cakes/three-tier-buttercream-cake-dahlias-cornflowers.jpeg';
-import pressedPansies from '../../../assets/images/wedding-cakes/three-tier-cake-pressed-edible-flowers-pansies.jpeg';
-import pressedPainted from '../../../assets/images/wedding-cakes/four-tier-cake-pressed-edible-flowers-painted.jpeg';
-import sugarDahlia from '../../../assets/images/wedding-cakes/sugar-dahlia-pink-white-realistic-detail.jpg';
-import trioTable from '../../../assets/images/wedding-cakes/trio-wedding-cakes-burgundy-dahlias-foliage-table.jpeg';
-import trioFoliage from '../../../assets/images/wedding-cakes/trio-wedding-cakes-burgundy-dahlias-foliage.jpeg';
-import trioPink from '../../../assets/images/wedding-cakes/trio-wedding-cakes-pink-dahlias-foliage.jpeg';
-import squareRoses from '../../../assets/images/wedding-cakes/square-buttercream-cake-white-roses-overhead.jpeg';
-import aliceTeaParty from '../../../assets/images/wedding-cakes/sculpted-alice-wonderland-tea-party-cake-full.jpeg';
-import aliceTeapot from '../../../assets/images/wedding-cakes/sculpted-alice-wonderland-teapot-cake-closeup.jpeg';
-import tropicalMonstera from '../../../assets/images/wedding-cakes/tropical-monstera-birthday-cake-gold-neon.jpg';
+import fiveTierFront from '../../../assets/images_cakeartcollective/wedding-cakes/sketch to cake/five-tier-wedding-cake-gold-swags-red-roses.jpeg';
+import fourTierDahlias from '../../../assets/images_cakeartcollective/wedding-cakes/four-tier-wedding-cake-dahlias-burgundy-foliage.jpeg';
+import threeTierPeony from '../../../assets/images_cakeartcollective/wedding-cakes/three-tier-cake-pink-peony-blue-delphiniums.jpg';
+import fuchsiaDahlia from '../../../assets/images_cakeartcollective/Featured on front page/two-tier-cake-fuchsia-dahlia-white-roses.jpg';
+import yellowDahlias from '../../../assets/images_cakeartcollective/wedding-cakes/two-tier-yellow-cake-pink-dahlias-cream-roses.jpg';
+import singleTierPink from '../../../assets/images_cakeartcollective/wedding-cakes/single-tier-wedding-cakes-cream-pink-burgundy.jpeg';
+import yellowOrangeRoses from '../../../assets/images_cakeartcollective/wedding-cakes/single-tier-yellow-cake-cream-orange-roses.jpeg';
+import sugarPeonies from '../../../assets/images_cakeartcollective/wedding-cakes/three-tier-cake-oversized-sugar-peonies-gold.jpeg';
+import dahliasCornflowers from '../../../assets/images_cakeartcollective/wedding-cakes/three-tier-buttercream-cake-dahlias-cornflowers.jpeg';
+import pressedPansies from '../../../assets/images_cakeartcollective/wedding-cakes/three-tier-cake-pressed-edible-flowers-pansies.jpeg';
+import pressedPainted from '../../../assets/images_cakeartcollective/wedding-cakes/four-tier-cake-pressed-edible-flowers-painted.jpeg';
+import sugarDahlia from '../../../assets/images_cakeartcollective/wedding-cakes/sugar-dahlia-pink-white-realistic-detail.jpg';
+import trioTable from '../../../assets/images_cakeartcollective/wedding-cakes/trio-wedding-cakes-burgundy-dahlias-foliage-table.jpeg';
+import trioFoliage from '../../../assets/images_cakeartcollective/wedding-cakes/trio-wedding-cakes-burgundy-dahlias-foliage.jpeg';
+import trioPink from '../../../assets/images_cakeartcollective/wedding-cakes/trio-wedding-cakes-pink-dahlias-foliage.jpeg';
+import squareRoses from '../../../assets/images_cakeartcollective/wedding-cakes/square-buttercream-cake-white-roses-overhead.jpeg';
+import aliceTeaParty from '../../../assets/images_cakeartcollective/wedding-cakes/sculpted-alice-wonderland-tea-party-cake-full.jpeg';
+import aliceTeapot from '../../../assets/images_cakeartcollective/wedding-cakes/sculpted-alice-wonderland-teapot-cake-closeup.jpeg';
+import tropicalMonstera from '../../../assets/images_cakeartcollective/wedding-cakes/tropical-monstera-birthday-cake-gold-neon.jpg';
+import pearlFlowers from '../../../assets/images_cakeartcollective/wedding-cakes/two-tier-white-cake-pearls-fresh-flowers.jpeg';
 
+// Whole cakes first, close-ups after
 const weddingCakes = [
-  { src: sugarPeonies, alt: 'Three-tier cake with dramatic oversized sugar peonies on top and gold brush stroke details' },
-  { src: fourTierDahlias, alt: 'Four-tier white wedding cake with fresh white dahlias, burgundy roses, and cascading dark foliage with blackberry accents' },
-  { src: fuchsiaDahlia, alt: 'Two-tier white cake with bold fuchsia dahlia, white roses, peach peonies, and blackberry accents' },
-  { src: threeTierPeony, alt: 'Three-tier white cake decorated with a pink peony, blue delphiniums, baby\'s breath, and gold beaded details' },
-  { src: trioTable, alt: 'Trio of wedding cakes with burgundy dahlias and foliage on a styled table setting' },
-  { src: trioFoliage, alt: 'Trio of wedding cakes with burgundy dahlias and cascading foliage' },
-  { src: trioPink, alt: 'Trio of wedding cakes with pink dahlias and trailing foliage' },
-  { src: yellowDahlias, alt: 'Two-tier soft yellow cake with white and pink dahlias, cream roses, and burgundy foliage accents' },
-  { src: yellowOrangeRoses, alt: 'Single-tier pale yellow cake with cream and orange roses and green foliage' },
-  { src: singleTierPink, alt: 'Multiple single-tier wedding cakes with cream frosting and pale pink and burgundy floral tops' },
-  { src: squareRoses, alt: 'Overhead view of square buttercream cake with white piped roses' },
-  { src: dahliasCornflowers, alt: 'Three-tier white buttercream cake with white dahlias, purple cornflowers, and trailing greenery' },
-  { src: pressedPansies, alt: 'Three-tier cream cake decorated with colourful pressed edible flowers including purple, yellow, and pink pansies' },
-  { src: pressedPainted, alt: 'Four-tier cake with vibrant pressed edible flowers in purple, yellow, burgundy, and pink creating a painted effect' },
-  { src: aliceTeaParty, alt: 'Sculpted Alice in Wonderland tea party cake with teacups, playing cards, and whimsical details' },
-  { src: aliceTeapot, alt: 'Close-up of sculpted Alice in Wonderland teapot with hand-painted details' },
-  { src: tropicalMonstera, alt: 'Tropical birthday cake with monstera leaves and gold neon topper' },
-  { src: sugarDahlia, alt: 'Delicate white and pale pink sugar dahlia with realistic petal detail and foliage' },
+  { src: fiveTierFront, title: 'Five-tier gold and red rose cake', alt: 'Five-tier white wedding cake with gold scroll details, a monogram and red roses, in front of a red floral arch' },
+  { src: dahliasCornflowers, title: 'Dahlia and cornflower wedding cake', alt: 'Three-tier white buttercream cake with white dahlias, purple cornflowers, and trailing greenery' },
+  { src: pressedPansies, title: 'Pressed-flower wedding cake', alt: 'Three-tier cream cake decorated with colourful pressed edible flowers including purple, yellow, and pink pansies' },
+  { src: pearlFlowers, title: 'White pearl cake with flowers', alt: 'Two-tier white cake scattered with sugar pearls and decorated with pink peonies, dahlias, stocks and greenery' },
+  { src: fourTierDahlias, title: 'Five-tier cake, second angle', alt: 'Five-tier white wedding cake with gold scroll details, a monogram and red roses, seen from a closer angle' },
+  { src: threeTierPeony, title: 'Peony and delphinium wedding cake', alt: 'Three-tier white cake decorated with a pink peony, blue delphiniums, baby\'s breath, and gold beaded details' },
+  { src: pressedPainted, title: 'Pressed-flower tiered cake', alt: 'Four-tier cake with vibrant pressed edible flowers in purple, yellow, burgundy, and pink creating a painted effect' },
+  { src: trioTable, title: 'Trio of wedding cakes', alt: 'Trio of wedding cakes with burgundy dahlias and foliage on a styled table setting' },
+  { src: sugarPeonies, title: 'Pressed-flower three-tier cake', alt: 'Three-tier ivory buttercream cake decorated with pressed edible flowers including pansies, cornflowers and lavender, against a brick wall' },
+  { src: yellowOrangeRoses, title: 'Cream and orange rose cake', alt: 'Single-tier pale yellow cake with cream and orange roses and green foliage' },
+  { src: squareRoses, title: 'Square buttercream rose cake', alt: 'Overhead view of square buttercream cake with white piped roses' },
+  { src: aliceTeaParty, title: 'Alice in Wonderland tea party cake', alt: 'Sculpted Alice in Wonderland tea party cake with teacups, playing cards, and whimsical details' },
+  { src: singleTierPink, title: 'Dahlia and rose wedding cake', alt: 'Multiple single-tier wedding cakes with cream frosting and pale pink and burgundy floral tops' },
+  { src: trioFoliage, title: 'Rose and burgundy foliage cake', alt: 'Cream single-tier cake topped with ivory and blush sugar roses, burgundy foliage and blackberries, between pink taper candles' },
+  { src: fuchsiaDahlia, title: 'Fuchsia dahlia detail', alt: 'Close-up of a cream cake topped with a deep fuchsia sugar dahlia, white roses, a blackberry and green foliage' },
+  { src: trioPink, title: 'Dahlia and rose cake detail', alt: 'Cream single-tier cake topped with a pale pink sugar dahlia, a red rose and burgundy foliage, with more cakes behind' },
+  { src: yellowDahlias, title: 'Dahlia and rose cake by candlelight', alt: 'Cream single-tier cake with a blush sugar dahlia, a red rose and burgundy leaves, beside a lit candle and other cakes' },
+  { src: tropicalMonstera, title: 'Tropical monstera cake', alt: 'Three-tier birthday cake with a gold top tier, a white tier painted with monstera leaves, and a green leaf-textured base piped with Happy Birthday' },
+  { src: aliceTeapot, title: 'Alice teapot detail', alt: 'Close-up of sculpted Alice in Wonderland teapot with hand-painted details' },
+  { src: sugarDahlia, title: 'Sugar dahlia detail', alt: 'Delicate white and pale pink sugar dahlia with realistic petal detail and foliage' },
 ];
 ---
 
@@ -50,56 +54,35 @@ const weddingCakes = [
   title="Wedding Cakes"
   description="Wedding cakes by Cake Art Collective. Tiered, sculpted, and decorated — every one made from scratch."
 >
-  <!-- Hero -->
-  <section class="section-deep section-deep-top">
-    <div class="max-w-7xl mx-auto px-6 py-14 md:py-20">
-      <a href="/gallery/" class="text-[11px] tracking-[0.2em] uppercase text-primary-light/60 hover:text-secondary-light transition-colors mb-4 inline-block">
-        &larr; Back to gallery
-      </a>
-      <Flourish variant="light" class="justify-start py-4 mb-4" />
-      <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-bg mb-4">Wedding Cakes</h1>
-      <p class="text-primary-light/80 max-w-lg leading-relaxed">
-        Elegant, romantic, and always personal. Every wedding cake designed and made from scratch.
-      </p>
-    </div>
+  <!-- Page header -->
+  <section class="max-w-7xl mx-auto px-6 page-header">
+    <a href="/gallery/" class="link-quiet mb-6">&larr; Back to gallery</a>
+    <h1 class="font-heading text-4xl md:text-5xl text-text mb-4">Wedding cakes</h1>
+    <p class="text-text-secondary text-lg max-w-xl">
+      Elegant, romantic, and always personal. Every wedding cake designed and made from scratch.
+    </p>
+    <a href="/stories/sketch-to-cake/" class="link-quiet mt-5">From sketch to cake: the story of my tallest cake &rarr;</a>
   </section>
-  <PaintedEdge fill="#F7F5EE" />
 
   <!-- Wedding Cakes Gallery -->
-  <section class="max-w-7xl mx-auto px-6 py-12 md:py-16">
-    <div class="columns-1 sm:columns-2 lg:columns-3 gap-5 md:gap-6">
-      {weddingCakes.map((cake) => (
-        <div class="gallery-item gallery-frame break-inside-avoid mb-5 md:mb-6">
-          <Image
-            src={cake.src}
-            alt={cake.alt}
-            widths={[400, 600, 800]}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            class="w-full h-auto block"
-            loading="lazy"
-          />
-        </div>
-      ))}
-    </div>
+  <section class="max-w-7xl mx-auto px-6 pt-4 md:pt-6 pb-16 md:pb-24">
+    <GalleryGrid items={weddingCakes} />
   </section>
 
   <!-- CTA -->
-  <PaintedEdge fill="#0B3B42" />
   <section class="section-deep">
-    <div class="max-w-7xl mx-auto px-6 py-16 md:py-28 text-center">
-      <Flourish variant="light" class="mb-4" />
-      <p class="font-accent text-3xl md:text-4xl text-primary-light mb-3">your day, your cake</p>
-      <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-6">
+    <div class="max-w-7xl mx-auto px-6 section text-center">
+      <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-4">
         Planning your wedding cake?
       </h2>
-      <p class="text-primary-light/80 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+      <p class="text-on-deep text-lg max-w-xl mx-auto mb-8">
         Every wedding cake is designed from scratch. Let's talk about your day and create something you'll love.
       </p>
-      <a href="/contact/"
-        class="inline-block text-[11px] tracking-[0.2em] uppercase text-secondary-light border-b border-secondary-light/50 pb-1 hover:text-secondary hover:border-secondary transition-colors">
+      <a href="/contact/?type=cake" class="btn btn-on-deep">
         Get in touch
       </a>
     </div>
   </section>
-  <PaintedEdge fill="#F7F5EE" />
+
+  <Lightbox />
 </BaseLayout>

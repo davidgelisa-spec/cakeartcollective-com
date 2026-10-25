@@ -1,0 +1,70 @@
+{
+  "_documentation": {
+    "what_is_this": "Project-scoped MCP servers. Claude Code, Codex, and Cursor auto-load this file from the project root. User-scoped MCPs (configured in Claude.ai, Codex settings, etc.) load globally and don't need to be listed here.",
+    "do_you_need_this_file": "Often NO. If you (and your collaborators) already have the MCPs you want connected at the user/web level, leave `mcpServers` empty. This file then serves as documentation: which MCPs are worth considering for this archetype, and how to wire them up if a friend or fresh environment needs them. Add a server here only when you want it scoped to THIS project (e.g. a project-specific Linear/Notion workspace, or a fresh setup that lacks your globals).",
+    "how_to_use": "Move servers from `_examples` into `mcpServers` to activate them. Don't commit secrets — prefer OAuth-based MCPs (browser-handshake, no inline tokens) where available. For MCPs that require a token, use env-var substitution or keep `.mcp.json` gitignored.",
+    "review_cadence": "Re-check this file when aligning a new project, when the tech stack changes, or every few months — new MCPs ship constantly."
+  },
+
+  "mcpServers": {},
+
+  "_examples": {
+    "_comment": "Copy any of these into `mcpServers` to activate. Each block is self-contained.",
+
+    "context7": {
+      "_when_to_use": "Any project using a non-trivial framework or library. Returns up-to-date docs and avoids stale-training-data answers.",
+      "_definition": {
+        "command": "npx",
+        "args": ["-y", "@upstash/context7-mcp"]
+      }
+    },
+
+    "astro-docs": {
+      "_when_to_use": "Astro projects. Official Astro docs MCP.",
+      "_definition": {
+        "command": "npx",
+        "args": ["-y", "mcp-remote", "https://mcp.docs.astro.build/mcp"]
+      }
+    },
+
+    "svelte": {
+      "_when_to_use": "Svelte / SvelteKit projects. Official Svelte MCP.",
+      "_definition": {
+        "command": "npx",
+        "args": ["-y", "mcp-remote", "https://mcp.svelte.dev/mcp"]
+      }
+    },
+
+    "next-devtools": {
+      "_when_to_use": "Next.js projects. Provides Next-specific tooling and docs.",
+      "_definition": {
+        "command": "npx",
+        "args": ["-y", "@next/mcp"]
+      }
+    },
+
+    "chrome-devtools": {
+      "_when_to_use": "When live UX, layout, or perf inspection is needed against a running site.",
+      "_definition": {
+        "command": "npx",
+        "args": ["-y", "chrome-devtools-mcp"]
+      }
+    },
+
+    "playwright": {
+      "_when_to_use": "Site / app automation, end-to-end interaction, screenshot capture.",
+      "_definition": {
+        "command": "npx",
+        "args": ["-y", "@playwright/mcp"]
+      }
+    },
+
+    "cloudflare-worker-mcp-example": {
+      "_when_to_use": "Pattern reference: a custom remote MCP on a Cloudflare Worker, authenticating via browser-based OAuth (no inline tokens). Replace the URL with your own worker. mcp-remote runs locally as a stdio bridge and handles the OAuth handshake automatically — first run opens a browser, subsequent runs use the cached token.",
+      "_definition": {
+        "command": "npx",
+        "args": ["mcp-remote", "https://YOUR-WORKER.workers.dev/mcp"]
+      }
+    }
+  }
+}

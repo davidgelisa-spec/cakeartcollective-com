@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import Lightbox from '../../../components/ui/Lightbox.astro';
+
+// The couple agreed to the photos being used as long as no faces are shown —
+// check any photo added here before publishing
+import sketch from '../../../assets/images_cakeartcollective/wedding-cakes/sketch to cake/wedding-cake-design-sketch-gold-roses-1.jpeg';
+import finished from '../../../assets/images_cakeartcollective/wedding-cakes/sketch to cake/five-tier-wedding-cake-gold-swags-red-roses.jpeg';
+import gilding from '../../../assets/images_cakeartcollective/wedding-cakes/sketch to cake/five-tier-wedding-cake-gilding-monogram-detail.jpeg';
+import secondAngle from '../../../assets/images_cakeartcollective/wedding-cakes/four-tier-wedding-cake-dahlias-burgundy-foliage.jpeg';
+
+const pairHeight = 'h-56 sm:h-80 md:h-[440px] lg:h-[520px] w-auto block';
+// The gilding pair is wider overall, so it sits a little shorter on phones and tablets to fit side by side
+const detailPairHeight = 'h-44 sm:h-80 md:h-[380px] lg:h-[520px] w-auto block';
+---
+
+<BaseLayout
+  title="From Sketch to Cake"
+  description="How a five-tier wedding cake for an Asian wedding went from a hand-drawn sketch to the finished cake, with moulded gilding painted in antique gold."
+  image={finished.src}
+>
+  <!-- Page header -->
+  <section class="max-w-7xl mx-auto px-6 page-header">
+    <a href="/gallery/weddings/" class="link-quiet mb-6">&larr; Wedding cakes</a>
+    <h1 class="font-heading text-4xl md:text-5xl text-text mb-4">From sketch to cake</h1>
+    <p class="text-text-secondary text-lg max-w-xl">
+      A five-tier wedding cake — the tallest I've made.
+    </p>
+  </section>
+
+  <article class="max-w-7xl mx-auto px-6 pt-4 md:pt-6 pb-16 md:pb-24">
+    <div class="max-w-2xl">
+      <p class="text-text-secondary text-lg mb-5">
+        About five years ago I was asked to make a cake for an Asian wedding. The brief was big and opulent, and I was given an inspiration image as a starting point. From that, I drew the design.
+      </p>
+    </div>
+
+    <div class="flex items-end gap-3 md:gap-6 my-10 md:my-12">
+      <figure>
+        <button type="button" data-lightbox-item data-title="The sketch" aria-label="Enlarge: the sketch" class="gallery-item cursor-zoom-in">
+          <Image src={sketch} alt="Hand-drawn design sketch of a five-tier white wedding cake with gold scrollwork, a monogram panel and red roses" widths={[300, 600, 1200]} sizes="(max-width: 768px) 30vw, 250px" class={pairHeight} />
+        </button>
+        <figcaption class="text-sm text-text-secondary mt-3">The sketch</figcaption>
+      </figure>
+      <figure>
+        <button type="button" data-lightbox-item data-title="The finished cake" aria-label="Enlarge: the finished cake" class="gallery-item cursor-zoom-in">
+          <Image src={finished} alt="The finished five-tier white wedding cake with gold scroll details, a monogram and red roses, in front of a red floral arch" widths={[400, 700, 1400]} sizes="(max-width: 768px) 55vw, 360px" class={pairHeight} />
+        </button>
+        <figcaption class="text-sm text-text-secondary mt-3">The finished cake</figcaption>
+      </figure>
+    </div>
+
+    <div class="max-w-2xl">
+      <h2 class="font-heading text-3xl md:text-4xl text-text mb-4">Almost nothing changed</h2>
+      <p class="text-text-secondary text-lg mb-12 md:mb-16">
+        Looking at the two side by side, the finished cake is remarkably similar to the sketch. Almost nothing changed between the drawing and the day.
+      </p>
+
+      <h2 class="font-heading text-3xl md:text-4xl text-text mb-4">Getting the gold right</h2>
+      <p class="text-text-secondary text-lg">
+        It took a long time to make. The gilding on the borders was moulded, then painted gold. Before going ahead, I sent the bride samples of the gold we were going to use, to make sure we had exactly the right shade: an antique gold, not too bright.
+      </p>
+    </div>
+
+    <div class="flex items-end gap-3 md:gap-6 mt-10 md:mt-12">
+      <figure>
+        <button type="button" data-lightbox-item data-title="The gilding" aria-label="Enlarge: the gilding" class="gallery-item cursor-zoom-in">
+          <Image src={gilding} alt="Close-up of the moulded gilding and monogram frame painted in antique gold, with red roses and gold leaves" widths={[400, 700, 1000]} sizes="(max-width: 768px) 45vw, 400px" class={detailPairHeight} />
+        </button>
+        <figcaption class="text-sm text-text-secondary mt-3">The moulded gilding, painted antique gold</figcaption>
+      </figure>
+      <figure>
+        <button type="button" data-lightbox-item data-title="A second angle" aria-label="Enlarge: a second angle" class="gallery-item cursor-zoom-in">
+          <Image src={secondAngle} alt="The five-tier wedding cake from a closer angle, showing the gold scroll details and red roses on each tier" widths={[400, 700, 1400]} sizes="(max-width: 768px) 45vw, 500px" class={detailPairHeight} />
+        </button>
+        <figcaption class="text-sm text-text-secondary mt-3">A second angle</figcaption>
+      </figure>
+    </div>
+  </article>
+
+  <!-- CTA -->
+  <section class="section-deep">
+    <div class="max-w-7xl mx-auto px-6 section text-center">
+      <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-4">
+        Have a design in mind?
+      </h2>
+      <p class="text-on-deep text-lg max-w-xl mx-auto mb-8">
+        Whether you have a sketch, an inspiration image or just an idea, every cake starts with a conversation.
+      </p>
+      <a href="/contact/?type=cake" class="btn btn-on-deep">
+        Enquire about a cake
+      </a>
+    </div>
+  </section>
+
+  <Lightbox />
+</BaseLayout>

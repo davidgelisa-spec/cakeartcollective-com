@@ -1,25 +1,42 @@
-# build output
-dist/
-# generated types
-.astro/
-
-# dependencies
+# Dependencies
 node_modules/
 
-# logs
+# Build output
+dist/
+.next/
+.astro/
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.production
+# Cloudflare local secrets (Airtable token, session secret, credentials)
+.dev.vars
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# Transient / staging — ignore contents but keep the folders so they
+# survive `git clone` in projects that copy this template.
+_inbox/*
+!_inbox/.gitkeep
+_cowork/*
+!_cowork/.gitkeep
 
-# environment variables
-.env
-.env.production
-.dev.vars
-
-# macOS-specific files
+# OS files
 .DS_Store
+Thumbs.db
 
-# jetbrains setting folder
+# Editor
+.vscode/
 .idea/
+*.swp
+*.swo
+
+# Local-only Claude Code settings (per-machine; commit settings.json instead)
+.claude/settings.local.json
+.claude/scheduled_tasks.lock

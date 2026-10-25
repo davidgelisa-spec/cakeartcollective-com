@@ -2,6 +2,7 @@
 export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { siteConfig } from '../../data/siteConfig';
 
 // If already logged in, redirect to members
 const cookieHeader = Astro.request.headers.get('cookie');
@@ -26,7 +27,10 @@ const error = Astro.url.searchParams.get('error');
   <section class="min-h-[70vh] flex items-center justify-center px-6 py-20">
     <div class="w-full max-w-sm">
       <h1 class="text-3xl md:text-4xl mb-2 text-center">Members Area</h1>
-      <p class="text-text-secondary text-center text-sm mb-12">Sign in to continue</p>
+      <p class="text-text-secondary text-center text-sm mb-12 leading-relaxed">
+        Sign in to access your Cake Art Collective courses and downloads.
+        Courses are coming soon.
+      </p>
 
       {error && (
         <div class="mb-8 text-sm text-red-700 bg-red-50 border border-red-200 px-4 py-3 rounded">
@@ -38,7 +42,7 @@ const error = Astro.url.searchParams.get('error');
 
       <form method="POST" action="/api/auth/login/" class="space-y-8">
         <div>
-          <label for="email" class="block text-[11px] tracking-[0.2em] uppercase text-text-secondary mb-3">
+          <label for="email" class="form-label mb-2">
             Email
           </label>
           <input
@@ -53,7 +57,7 @@ const error = Astro.url.searchParams.get('error');
         </div>
 
         <div>
-          <label for="password" class="block text-[11px] tracking-[0.2em] uppercase text-text-secondary mb-3">
+          <label for="password" class="form-label mb-2">
             Password
           </label>
           <input
@@ -70,12 +74,17 @@ const error = Astro.url.searchParams.get('error');
         <div class="pt-4">
           <button
             type="submit"
-            class="w-full text-[11px] tracking-[0.2em] uppercase border-b-2 border-primary py-3 text-text hover:text-primary transition-colors cursor-pointer"
+            class="btn w-full"
           >
             Sign In
           </button>
         </div>
       </form>
+
+      <p class="text-text-secondary text-center text-sm mt-10 leading-relaxed">
+        Forgotten your password or having trouble signing in? Email
+        <a href={`mailto:${siteConfig.email}`} class="text-text underline hover:text-primary">{siteConfig.email}</a>.
+      </p>
     </div>
   </section>
 </BaseLayout>

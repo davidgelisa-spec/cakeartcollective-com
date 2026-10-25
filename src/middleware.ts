@@ -4,9 +4,8 @@ import { getSessionCookie, verifySessionToken } from './lib/auth';
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
-  // Only protect /members/ routes and /api/sites/ routes
-  const isProtected =
-    pathname.startsWith('/members') || pathname.startsWith('/api/sites');
+  // Only protect /members/ routes
+  const isProtected = pathname.startsWith('/members');
 
   if (!isProtected) {
     return next();

@@ -1,35 +1,35 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { siteConfig } from '../../data/siteConfig';
-import Flourish from '../../components/ui/Flourish.astro';
-import PaintedEdge from '../../components/ui/PaintedEdge.astro';
 ---
 
 <BaseLayout
   title="Contact"
   description="Get in touch to order a custom cake or enquire about classes."
 >
-  <!-- Hero -->
-  <section class="section-deep section-deep-top">
-    <div class="max-w-7xl mx-auto px-6 py-14 md:py-20">
-      <Flourish variant="light" class="justify-start py-4 mb-4" />
-      <p class="font-accent text-3xl md:text-4xl text-primary-light mb-3">I'd love to hear from you</p>
-      <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-bg mb-4">Get in touch</h1>
-      <p class="text-primary-light/80 max-w-lg leading-relaxed">
-        Have a cake in mind or a question about classes? I'd love to hear from you.
-      </p>
-    </div>
+  <!-- Page header -->
+  <section class="max-w-7xl mx-auto px-6 page-header">
+    <h1 class="font-heading text-4xl md:text-5xl text-text mb-4">Get in touch</h1>
+    <p class="text-text-secondary text-lg max-w-xl">
+      Have a cake in mind or a question about classes? I'd love to hear from you.
+    </p>
   </section>
-  <PaintedEdge fill="#F7F5EE" />
 
   <!-- Contact -->
-  <section class="max-w-7xl mx-auto px-6 py-12 md:py-16">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+  <section class="max-w-7xl mx-auto px-6 pt-4 md:pt-6 pb-16 md:pb-24">
+    <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-14 lg:gap-24">
       <!-- Form -->
       <div>
-        <form class="space-y-6" action="https://formspree.io/f/mreaoaep" method="POST">
+        <form
+          id="enquiry-form"
+          class="space-y-6"
+          action="https://formspree.io/f/mreaoaep"
+          method="POST"
+          data-ajax-form
+          data-success-message="Thank you — your enquiry has been sent. I'll be in touch by email."
+        >
           <div>
-            <label for="name" class="block text-[11px] tracking-[0.15em] uppercase text-text-secondary mb-2">Name</label>
+            <label for="name" class="form-label">Name</label>
             <input
               type="text"
               id="name"
@@ -40,7 +40,7 @@ import PaintedEdge from '../../components/ui/PaintedEdge.astro';
           </div>
 
           <div>
-            <label for="email" class="block text-[11px] tracking-[0.15em] uppercase text-text-secondary mb-2">Email</label>
+            <label for="email" class="form-label">Email</label>
             <input
               type="email"
               id="email"
@@ -51,10 +51,11 @@ import PaintedEdge from '../../components/ui/PaintedEdge.astro';
           </div>
 
           <div>
-            <label for="subject" class="block text-[11px] tracking-[0.15em] uppercase text-text-secondary mb-2">Subject</label>
+            <label for="subject" class="form-label">What's it about?</label>
             <select
               id="subject"
               name="subject"
+              required
               class="w-full px-0 py-3 border-0 border-b border-border bg-transparent text-text focus:outline-none focus:border-primary transition-colors"
             >
               <option value="">Select a topic</option>
@@ -64,8 +65,46 @@ import PaintedEdge from '../../components/ui/PaintedEdge.astro';
             </select>
           </div>
 
+          <!-- Cake details — optional, shown for cake enquiries -->
+          <fieldset id="cake-fields" class="space-y-6">
+            <legend class="text-text-secondary mb-2">
+              A few details help me quote — fill in what you know so far.
+            </legend>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label for="event-date" class="form-label">Event date</label>
+                <input
+                  type="date"
+                  id="event-date"
+                  name="event_date"
+                  class="w-full px-0 py-3 border-0 border-b border-border bg-transparent text-text focus:outline-none focus:border-primary transition-colors"
+                />
+              </div>
+              <div>
+                <label for="servings" class="form-label">Number of servings</label>
+                <input
+                  type="number"
+                  id="servings"
+                  name="servings"
+                  min="1"
+                  inputmode="numeric"
+                  class="w-full px-0 py-3 border-0 border-b border-border bg-transparent text-text focus:outline-none focus:border-primary transition-colors"
+                />
+              </div>
+            </div>
+            <div>
+              <label for="venue" class="form-label">Venue or delivery area</label>
+              <input
+                type="text"
+                id="venue"
+                name="venue"
+                class="w-full px-0 py-3 border-0 border-b border-border bg-transparent text-text focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+          </fieldset>
+
           <div>
-            <label for="message" class="block text-[11px] tracking-[0.15em] uppercase text-text-secondary mb-2">Message</label>
+            <label for="message" class="form-label">Message</label>
             <textarea
               id="message"
               name="message"
@@ -76,20 +115,16 @@ import PaintedEdge from '../../components/ui/PaintedEdge.astro';
           </div>
 
           <div class="pt-4">
-            <button
-              type="submit"
-              class="text-[11px] tracking-[0.2em] uppercase text-text border-b border-text pb-1 hover:text-primary hover:border-primary transition-colors"
-            >
-              Send message
-            </button>
+            <button type="submit" class="btn">Send enquiry</button>
           </div>
+          <p data-form-status role="status" aria-live="polite" hidden></p>
         </form>
       </div>
 
       <!-- Info -->
-      <div class="space-y-10">
+      <div class="space-y-8 border-t border-border pt-10 lg:border-t-0 lg:pt-0 lg:border-l lg:pl-12">
         <div>
-          <h3 class="font-accent text-4xl text-text-secondary mb-3">Email</h3>
+          <h2 class="font-body font-semibold text-base text-text mb-1">Email</h2>
           <a
             href={`mailto:${siteConfig.email}`}
             class="text-text hover:text-primary transition-colors"
@@ -99,7 +134,7 @@ import PaintedEdge from '../../components/ui/PaintedEdge.astro';
         </div>
 
         <div>
-          <h3 class="font-accent text-4xl text-text-secondary mb-3">Social</h3>
+          <h2 class="font-body font-semibold text-base text-text mb-1">Social</h2>
           <a
             href={siteConfig.social.instagram}
             target="_blank"
@@ -111,7 +146,7 @@ import PaintedEdge from '../../components/ui/PaintedEdge.astro';
         </div>
 
         <div>
-          <h3 class="font-accent text-4xl text-text-secondary mb-3">Location</h3>
+          <h2 class="font-body font-semibold text-base text-text mb-1">Location</h2>
           <p class="text-text-secondary">
             Based in the UK.<br />
             In-person and online options available.
@@ -120,6 +155,34 @@ import PaintedEdge from '../../components/ui/PaintedEdge.astro';
       </div>
     </div>
   </section>
-
-  <Flourish />
 </BaseLayout>
+
+<script>
+  import '../../scripts/ajax-form';
+
+  // Preselect the enquiry type from links like /contact/?type=cake, and
+  // prefill the message when arriving from a gallery image (?design=...).
+  const params = new URLSearchParams(window.location.search);
+  const subject = document.getElementById('subject') as HTMLSelectElement | null;
+  const message = document.getElementById('message') as HTMLTextAreaElement | null;
+  const cakeFields = document.getElementById('cake-fields');
+
+  const type = params.get('type');
+  if (subject && type && [...subject.options].some((o) => o.value === type)) {
+    subject.value = type;
+  }
+
+  const design = params.get('design');
+  if (message && design && !message.value) {
+    message.value = `I'd love a cake like this one from your gallery: ${design}\n\n`;
+  }
+
+  // Cake details stay visible when no topic is chosen yet; hide them only
+  // when the visitor picks a non-cake topic.
+  function syncCakeFields() {
+    if (!subject || !cakeFields) return;
+    cakeFields.hidden = subject.value !== '' && subject.value !== 'cake';
+  }
+  subject?.addEventListener('change', syncCakeFields);
+  syncCakeFields();
+</script>

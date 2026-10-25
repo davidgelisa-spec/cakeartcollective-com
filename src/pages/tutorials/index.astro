@@ -1,51 +1,44 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Flourish from '../../components/ui/Flourish.astro';
-import PaintedEdge from '../../components/ui/PaintedEdge.astro';
 ---
 
 <BaseLayout
   title="Tutorials"
   description="Self-paced cake art tutorials coming soon."
 >
-  <!-- Hero -->
-  <section class="section-deep section-deep-top">
-    <div class="max-w-7xl mx-auto px-6 py-14 md:py-20">
-      <Flourish variant="light" class="justify-start py-4 mb-4" />
-      <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-bg mb-4">Tutorials</h1>
-      <p class="text-primary-light/80 max-w-lg leading-relaxed">
-        Learn cake decorating at your own pace.
-      </p>
-    </div>
+  <!-- Page header -->
+  <section class="max-w-7xl mx-auto px-6 page-header">
+    <h1 class="font-heading text-4xl md:text-5xl text-text mb-4">Tutorials</h1>
+    <p class="text-text-secondary text-lg max-w-xl">
+      Learn cake decorating at your own pace.
+    </p>
   </section>
-  <PaintedEdge fill="#F7F5EE" />
 
   <!-- Coming Soon -->
-  <section class="max-w-7xl mx-auto px-6 py-12 md:py-16">
+  <section class="max-w-7xl mx-auto px-6 pt-4 md:pt-6 pb-16 md:pb-24">
     <div class="max-w-3xl">
-      <p class="font-accent text-3xl md:text-4xl text-primary mb-2">coming soon</p>
-      <p class="text-text-secondary text-lg leading-relaxed mb-6">
+      <h2 class="font-heading text-3xl md:text-4xl text-text mb-4">Coming soon</h2>
+      <p class="text-text-secondary text-lg max-w-2xl">
         I'm building a library of self-paced video tutorials — step-by-step lessons covering decorating techniques, sugar flowers, sculpted designs and more.
       </p>
 
-      <Flourish class="justify-start" />
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-14">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 pt-12 border-t border-border">
         <div>
-          <h3 class="font-heading text-lg text-text mb-2">Techniques</h3>
-          <p class="text-text-secondary text-sm leading-relaxed">
+          <h3 class="text-lg text-text mb-1">Techniques</h3>
+          <p class="text-text-secondary">
             Buttercream, ganache, fondant and more — the essentials done properly.
           </p>
         </div>
         <div>
-          <h3 class="font-heading text-lg text-text mb-2">Sugar flowers</h3>
-          <p class="text-text-secondary text-sm leading-relaxed">
+          <h3 class="text-lg text-text mb-1">Sugar flowers</h3>
+          <p class="text-text-secondary">
             Realistic flowers that look almost too good to eat.
           </p>
         </div>
         <div>
-          <h3 class="font-heading text-lg text-text mb-2">Sculpted designs</h3>
-          <p class="text-text-secondary text-sm leading-relaxed">
+          <h3 class="text-lg text-text mb-1">Sculpted designs</h3>
+          <p class="text-text-secondary">
             From carved shapes to 3D figures — bring your ideas to life.
           </p>
         </div>
@@ -54,29 +47,41 @@ import PaintedEdge from '../../components/ui/PaintedEdge.astro';
     </div>
   </section>
 
-  <PaintedEdge fill="#0B3B42" />
   <section class="section-deep">
-    <div class="max-w-7xl mx-auto px-6 py-16 md:py-24">
-      <div class="max-w-3xl">
-        <Flourish variant="light" class="justify-start py-4 mb-4" />
-        <p class="font-accent text-3xl md:text-4xl text-primary-light mb-4">stay in the loop</p>
-        <p class="text-primary-light/80 mb-6">Want to know when they're ready?</p>
-        <form class="flex gap-3 max-w-md">
-          <input
-            type="email"
-            placeholder="Your email"
-            required
-            class="flex-1 px-0 py-3 border-0 border-b border-secondary/40 bg-transparent text-bg placeholder-primary-light/50 focus:outline-none focus:border-secondary-light transition-colors"
-          />
-          <button
-            type="submit"
-            class="text-[11px] tracking-[0.2em] uppercase text-secondary-light border-b border-secondary-light/50 pb-1 hover:text-secondary hover:border-secondary transition-colors"
-          >
-            Notify me
-          </button>
+    <div class="max-w-7xl mx-auto px-6 section">
+      <div class="max-w-2xl">
+        <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-4">Stay in the loop</h2>
+        <p class="text-on-deep text-lg mb-8">Want to know when they're ready?</p>
+        <!-- Waitlist entries arrive via the same Formspree form as the contact page -->
+        <form
+          class="max-w-md"
+          action="https://formspree.io/f/mreaoaep"
+          method="POST"
+          data-ajax-form
+          data-success-message="Thank you — I'll email you when the tutorials are ready."
+        >
+          <input type="hidden" name="subject" value="tutorials-waitlist" />
+          <input type="hidden" name="_subject" value="Tutorials waitlist signup" />
+          <label for="waitlist-email" class="form-label !text-on-deep">
+            Your email
+          </label>
+          <div class="flex flex-wrap items-end gap-4">
+            <input
+              type="email"
+              id="waitlist-email"
+              name="email"
+              autocomplete="email"
+              required
+              class="flex-1 min-w-[12rem] px-0 py-3 border-0 border-b border-secondary/40 bg-transparent text-bg focus:outline-none focus:border-secondary-light transition-colors"
+            />
+            <button type="submit" class="btn btn-on-deep">Notify me</button>
+          </div>
+          <p data-form-status role="status" aria-live="polite" class="mt-4" hidden></p>
         </form>
+        <script>
+          import '../../scripts/ajax-form';
+        </script>
       </div>
     </div>
   </section>
-  <PaintedEdge fill="#F7F5EE" />
 </BaseLayout>

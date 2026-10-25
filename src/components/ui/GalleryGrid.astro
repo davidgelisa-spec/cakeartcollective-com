@@ -1,0 +1,88 @@
+---
+/**
+ * Masonry gallery that respects the order photos are listed in.
+ * Each photo, in list order, joins whichever column is currently shortest,
+ * so the first three photos head the three columns and later photos fill
+ * downwards. On phones the columns dissolve and CSS `order` restores the
+ * list order in a single column. Items open in <Lightbox />.
+ *
+ * @prop items - photos in priority order: { src, title, alt }
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Item {
+  src: ImageMetadata;
+  title: string;
+  alt: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+
+const COLUMNS = 3;
+const GAP = 0.04; // gap as a fraction of column width, so heights compare fairly
+const columns: { item: Item; index: number }[][] = Array.from({ length: COLUMNS }, () => []);
+const heights: number[] = new Array(COLUMNS).fill(0);
+
+items.forEach((item, index) => {
+  const shortest = heights.indexOf(Math.min(...heights));
+  columns[shortest].push({ item, index });
+  heights[shortest] += item.src.height / item.src.width + GAP;
+});
+---
+
+<div class="masonry">
+  {columns.map((column) => (
+    <div class="masonry-col">
+      {column.map(({ item, index }) => (
+        <button
+          type="button"
+          data-lightbox-item
+          data-index={index}
+          data-title={item.title}
+          aria-label={`Enlarge: ${item.title}`}
+          class="gallery-item w-full cursor-zoom-in"
+          style={`order: ${index}`}
+        >
+          <Image
+            src={item.src}
+            alt={item.alt}
+            widths={[400, 600, 800, 1400]}
+            sizes="(max-width: 767px) 100vw, 33vw"
+            class="w-full h-auto block"
+            loading="lazy"
+          />
+        </button>
+      ))}
+    </div>
+  ))}
+</div>
+
+<style>
+  .masonry {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .masonry-col {
+    display: contents;
+  }
+  @media (min-width: 768px) {
+    .masonry {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .masonry-col {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+      gap: 1.5rem;
+    }
+  }
+</style>

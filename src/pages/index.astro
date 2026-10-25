@@ -1,240 +1,172 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
-import Flourish from '../components/ui/Flourish.astro';
-import PaintedEdge from '../components/ui/PaintedEdge.astro';
 
-import hero from '../assets/images/Featured on front page/sculpted-elephant-african-sunset-cake.jpg';
+import hero from '../assets/images_cakeartcollective/Featured on front page/sculpted-elephant-african-sunset-cake-cropped.jpg';
 
-// Featured work — curated picks from "Featured on front page"
-import feat1 from '../assets/images/Featured on front page/sculpted-koi-fish-cake-closeup-scales.jpeg';
-import feat2 from '../assets/images/Featured on front page/two-tier-cake-fuchsia-dahlia-white-roses.jpg';
-import feat3 from '../assets/images/Featured on front page/sculpted-rolex-box-cake-three-quarter.jpeg';
-import feat4 from '../assets/images/Featured on front page/sculpted-t-rex-head-detail-teeth.jpeg';
-import feat5 from '../assets/images/Featured on front page/sculpted-royal-crown-cake-purple-gold.jpg';
-import feat6 from '../assets/images/Featured on front page/trio-wedding-cakes-pink-dahlias-foliage.jpeg';
-import feat7 from '../assets/images/Featured on front page/single-tier-cakes-cream-dahlias-burgundy-roses.jpeg';
-import feat8 from '../assets/images/Featured on front page/Screenshot_20211111-074618_Original.jpg';
+// Featured work — whole-cake photographs, alternating floral and sculpted; the five-tier (Lisa's tallest) leads
+import cherryBlossom from '../assets/images_cakeartcollective/celebration-cakes/cherry-blossom-tree-buttercream-cake.jpeg';
+import koi from '../assets/images_cakeartcollective/sculpted-cakes/Hyper-realistic /sculpted-koi-fish-cake-front-view.jpeg';
+import fiveTier from '../assets/images_cakeartcollective/wedding-cakes/sketch to cake/five-tier-wedding-cake-gold-swags-red-roses.jpeg';
+import rolexBox from '../assets/images_cakeartcollective/sculpted-cakes/Hyper-realistic /sculpted-rolex-watch-box-cake-marble-base.jpeg';
+import mintFlorals from '../assets/images_cakeartcollective/celebration-cakes/buttercream-flower-cake-pink-peony-clematis.jpg';
+import treeStump from '../assets/images_cakeartcollective/sculpted-cakes/Hyper-realistic /sculpted-tree-stump-axe-cake-full.jpeg';
+
+// Sketch to cake feature — the design sketch beside a second photo of the five-tier cake
+import fiveTierSketch from '../assets/images_cakeartcollective/wedding-cakes/sketch to cake/wedding-cake-design-sketch-gold-roses-1.jpeg';
+import fiveTierSecondAngle from '../assets/images_cakeartcollective/wedding-cakes/four-tier-wedding-cake-dahlias-burgundy-foliage.jpeg';
 
 // Monogram
-import monogram from '../assets/images/Cake Art Collective Logo Mono White.png';
+import monogram from '../assets/images_cakeartcollective/Cake Art Collective Logo Mono White.png';
 
-// Background image for teal sections
-import tealBg from '../assets/images/wedding-cakes/sugar-dahlia-pink-white-realistic-detail.jpg';
+const featured = [
+  { src: fiveTier, href: '/gallery/weddings/', alt: 'Five-tier white wedding cake with gold scroll details, a monogram and red roses, in front of a red floral arch' },
+  { src: koi, href: '/gallery/#hyper-realistic', alt: 'Sculpted koi fish in orange, white and black leaping over a turquoise water base with wave details' },
+  { src: cherryBlossom, href: '/gallery/#celebration', alt: 'Two-tier white buttercream cake with a sculpted cherry blossom tree and dozens of handcrafted pink flowers' },
+  { src: rolexBox, href: '/gallery/#hyper-realistic', alt: 'Sculpted Rolex watch box cake on a marble base with green case and cushioned watch' },
+  { src: mintFlorals, href: '/gallery/#celebration', alt: 'Two-tier mint buttercream cake with elaborate piped pink peony, roses, purple clematis and lush green leaves' },
+  { src: treeStump, href: '/gallery/#hyper-realistic', alt: 'Realistic tree stump cake with detailed bark texture, silver axe embedded in top, and moss at the base' },
+];
 ---
 
 <BaseLayout
   title="Custom Cakes & Decorating Classes"
   description="Cake Art Collective — custom cakes and cake decorating classes by Lisa."
 >
-  <!-- Hero — deep teal atmospheric block with photo overlay -->
-  <section class="section-deep section-deep-top">
-    <div class="section-deep-bg">
-      <Image src={tealBg} alt="" width={1200} quality={30} />
-    </div>
-    <div class="max-w-7xl mx-auto px-6 py-20 md:py-32">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        <div>
-          <div class="flex justify-center -mt-6 md:-mt-14 lg:-mt-28 mb-10 md:mb-14 lg:mb-16">
-            <Image
-              src={monogram}
-              alt="Cake Art Collective monogram"
-              width={120}
-              class="opacity-90 -translate-x-14"
-            />
-          </div>
-          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-bg mb-6">
+  <!-- Hero — on phones the order is headline, photo, then intro and enquiry
+       button; on desktop the photo sits in the right-hand column -->
+  <section class="section-deep">
+    <div class="max-w-7xl mx-auto px-6 pt-7 pb-12 md:py-16 lg:py-20">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-20 gap-y-5 md:gap-y-6 items-center">
+        <div class="lg:self-end">
+          <Image
+            src={monogram}
+            alt="Cake Art Collective monogram"
+            width={96}
+            class="opacity-90 w-9 md:w-14 h-auto mb-4 md:mb-8"
+          />
+          <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl text-bg">
             Life is short.<br />Make it sweet.
           </h1>
-          <p class="text-primary-light text-lg max-w-lg mb-10 leading-relaxed">
-            Custom cakes and hands-on decorating classes. Every cake designed, sculpted, and finished by hand.
-          </p>
-          <div class="flex flex-wrap gap-6">
-            <a href="/gallery/"
-              class="text-[11px] tracking-[0.2em] uppercase text-secondary-light border-b border-secondary-light/50 pb-1 hover:text-secondary hover:border-secondary transition-colors">
-              View gallery
-            </a>
-            <a href="/contact/"
-              class="text-[11px] tracking-[0.2em] uppercase text-primary-light/70 border-b border-primary-light/20 pb-1 hover:text-secondary-light hover:border-secondary-light transition-colors">
-              Order a cake
-            </a>
-          </div>
         </div>
-        <div class="gallery-frame">
+        <div class="lg:col-start-2 lg:row-start-1 lg:row-span-2">
           <Image
             src={hero}
             alt="Gold sculpted elephant emerging from a hand-painted African sunset cake"
             width={800}
-            class="w-full h-auto block"
+            class="w-auto h-auto block max-h-[40vh] lg:max-h-[72vh] mx-auto lg:mr-0 object-contain"
+            loading="eager"
           />
+        </div>
+        <div class="lg:self-start">
+          <p class="text-on-deep md:text-lg max-w-lg mb-6 md:mb-8">
+            Custom cakes and hands-on decorating classes. Every cake designed, sculpted, and finished by hand.
+          </p>
+          <div class="flex flex-wrap items-center gap-x-8 gap-y-4">
+            <a href="/contact/?type=cake" class="btn btn-on-deep">
+              Enquire about a cake
+            </a>
+            <a href="/gallery/" class="link-quiet">
+              View gallery
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Torn paper edge from dark into cream -->
-  <PaintedEdge fill="#F7F5EE" />
-
-  <!-- Intro -->
-  <section class="max-w-7xl mx-auto px-6 pt-16 pb-12 md:pt-24 md:pb-16">
-    <div class="max-w-3xl">
-      <p class="font-accent text-4xl md:text-5xl text-primary mb-3">welcome</p>
-      <h2 class="font-heading text-3xl md:text-4xl text-text mb-8">The art of Cake....</h2>
-      <p class="text-text-secondary text-lg leading-relaxed mb-6">
-        Cake Art Collective is the studio of Lisa Davidge, based in Ringwood on the edge of the New Forest. For me, cake has always been a creative medium — a way to sculpt, paint, and bring ideas to life. Every piece I make is designed and finished entirely by hand.
+  <!-- Selected work -->
+  <section class="max-w-7xl mx-auto px-6 section">
+    <div class="max-w-2xl mb-10 md:mb-12">
+      <h2 class="font-heading text-3xl md:text-4xl text-text mb-4">Selected work</h2>
+      <p class="text-text-secondary text-lg">
+        Cake Art Collective is the studio of Lisa Davidge, based in Ringwood on the edge of the New Forest. From sculpted showpieces to elegant tiered wedding cakes, every piece is designed and finished entirely by hand.
       </p>
-      <p class="text-text-secondary text-lg leading-relaxed">
-        I also love sharing that creativity through hands-on decorating classes at Belinda's Tearooms in Fordingbridge — whether you're a complete beginner or looking to develop your own artistic skills.
-      </p>
+    </div>
+    <div class="gallery-grid gallery-grid-compact">
+      {featured.map((cake) => (
+        <a href={cake.href} class="gallery-item">
+          <Image
+            src={cake.src}
+            alt={cake.alt}
+            widths={[400, 600, 800]}
+            sizes="(max-width: 1024px) 50vw, 33vw"
+            class="w-full h-auto block"
+            loading="lazy"
+          />
+        </a>
+      ))}
+    </div>
+    <div class="mt-8">
+      <a href="/gallery/" class="link-quiet">View the full gallery &rarr;</a>
     </div>
   </section>
 
-  <!-- Gallery intro -->
-  <section class="max-w-7xl mx-auto px-6 pb-8 md:pb-12">
-    <div class="max-w-2xl">
-      <p class="font-accent text-4xl md:text-5xl text-primary mb-3">selected work</p>
-      <h2 class="font-heading text-3xl md:text-4xl text-text mb-6">A taste of what I do</h2>
-      <p class="text-text-secondary text-lg leading-relaxed">
-        From sculpted showpieces to elegant tiered wedding cakes — every piece is designed and finished entirely by hand.
-      </p>
+  <!-- From sketch to cake -->
+  <section class="max-w-7xl mx-auto px-6 pb-16 md:pb-24">
+    <div class="border-t border-border pt-16 md:pt-24">
+      <div class="max-w-2xl mb-10 md:mb-12">
+        <h2 class="font-heading text-3xl md:text-4xl text-text mb-4">From sketch to cake</h2>
+        <p class="text-text-secondary text-lg">
+          Every cake starts as a design. This five-tier wedding cake — the tallest I've made — came out almost exactly as I drew it.
+        </p>
+      </div>
+      <div class="flex items-end gap-3 md:gap-6">
+        <figure>
+          <Image
+            src={fiveTierSketch}
+            alt="Hand-drawn design sketch of a five-tier white wedding cake with gold scrollwork, a monogram panel and red roses"
+            widths={[300, 600]}
+            sizes="(max-width: 768px) 30vw, 250px"
+            class="h-56 sm:h-80 md:h-[440px] lg:h-[520px] w-auto block"
+            loading="lazy"
+          />
+          <figcaption class="text-sm text-text-secondary mt-3">The sketch</figcaption>
+        </figure>
+        <figure>
+          <Image
+            src={fiveTierSecondAngle}
+            alt="The finished five-tier white wedding cake with gold scroll details, a monogram and red roses"
+            widths={[500, 800, 1100]}
+            sizes="(max-width: 768px) 60vw, 500px"
+            class="h-56 sm:h-80 md:h-[440px] lg:h-[520px] w-auto block"
+            loading="lazy"
+          />
+          <figcaption class="text-sm text-text-secondary mt-3">The finished cake</figcaption>
+        </figure>
+      </div>
+      <div class="mt-8">
+        <a href="/stories/sketch-to-cake/" class="link-quiet">Read the full story &rarr;</a>
+      </div>
     </div>
   </section>
 
-  <!-- Featured Work — gallery wall -->
-  <section class="max-w-7xl mx-auto px-6 pb-16 pt-4 md:pb-24 md:pt-8">
-    <div class="gallery-wall">
-      <!-- Col 1: Dragon, Dahlia, Trio wedding -->
-      <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-lg block">
-        <Image
-          src={feat8}
-          alt="Sculpted iridescent dragon cake with purple and teal scales, horns, and folded wings"
-          widths={[400, 600]}
-          sizes="(max-width: 768px) 50vw, 33vw"
-          class="w-full h-auto block"
-          loading="lazy"
-        />
-      </a>
-      <a href="/gallery/weddings/" class="gallery-wall-item gallery-item frame-pattern wall-pad-lg block">
-        <Image
-          src={feat2}
-          alt="Two-tier white cake with bold fuchsia dahlia, white roses, and peach peonies"
-          widths={[400, 600]}
-          sizes="(max-width: 768px) 50vw, 33vw"
-          class="w-full h-auto block"
-          loading="lazy"
-        />
-      </a>
-      <a href="/gallery/weddings/" class="gallery-wall-item gallery-item frame-mat wall-pad-lg block">
-        <Image
-          src={feat6}
-          alt="Trio of wedding cakes with pink dahlias and trailing foliage"
-          widths={[400, 600]}
-          sizes="(max-width: 768px) 50vw, 33vw"
-          class="w-full h-auto block"
-          loading="lazy"
-        />
-      </a>
-      <!-- Col 2: Crown, Rolex, Single-tier cakes -->
-      <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-lg block">
-        <Image
-          src={feat5}
-          alt="Sculpted royal crown cake in purple and gold with intricate detailing"
-          widths={[400, 600]}
-          sizes="(max-width: 768px) 50vw, 33vw"
-          class="w-full h-auto block"
-          loading="lazy"
-        />
-      </a>
-      <a href="/gallery/" class="gallery-wall-item gallery-item frame-copper wall-pad-sm block">
-        <Image
-          src={feat3}
-          alt="Sculpted Rolex watch box cake with green case and silver watch"
-          widths={[400, 600]}
-          sizes="(max-width: 768px) 50vw, 33vw"
-          class="w-full h-auto block"
-          loading="lazy"
-        />
-      </a>
-      <a href="/gallery/weddings/" class="gallery-wall-item gallery-item frame-pattern wall-pad-md block">
-        <Image
-          src={feat7}
-          alt="Three individual single-tier cakes on metal stands with cream dahlias and burgundy roses, styled with pink taper candles"
-          widths={[400, 600]}
-          sizes="(max-width: 768px) 50vw, 33vw"
-          class="w-full h-auto block"
-          loading="lazy"
-        />
-      </a>
-      <!-- Col 3: Koi, T-Rex -->
-      <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-sm block">
-        <Image
-          src={feat1}
-          alt="Close-up of sculpted koi fish cake showing detailed hand-painted orange and white scales"
-          widths={[400, 600, 800]}
-          sizes="(max-width: 768px) 50vw, 33vw"
-          class="w-full h-auto block"
-          loading="lazy"
-        />
-      </a>
-      <a href="/gallery/" class="gallery-wall-item gallery-item frame-teal wall-pad-md block">
-        <Image
-          src={feat4}
-          alt="Close-up of sculpted T-Rex head showing detailed open mouth with teeth and vivid yellow eye"
-          widths={[400, 600]}
-          sizes="(max-width: 768px) 50vw, 33vw"
-          class="w-full h-auto block"
-          loading="lazy"
-        />
-      </a>
-    </div>
-    <div class="mt-10">
-      <a href="/gallery/"
-        class="text-[11px] tracking-[0.2em] uppercase text-text-secondary hover:text-primary transition-colors">
-        View all &rarr;
-      </a>
+  <!-- About -->
+  <section class="max-w-7xl mx-auto px-6 pb-16 md:pb-24">
+    <div class="max-w-2xl border-t border-border pt-16 md:pt-24">
+      <h2 class="font-heading text-3xl md:text-4xl text-text mb-4">About me</h2>
+      <p class="text-text-secondary text-lg mb-5">
+        I'm Lisa. For me, cake has always been a creative medium — a way to sculpt, paint, and bring ideas to life. I've spent over a decade building things that people don't want to cut into.
+      </p>
+      <p class="text-text-secondary text-lg mb-8">
+        I also teach hands-on decorating classes at Belinda's Tearooms in Fordingbridge — whether you're picking up a palette knife for the first time or refining your technique.
+      </p>
+      <a href="/about/" class="link-quiet">More about Lisa &rarr;</a>
     </div>
   </section>
 
-  <Flourish />
-
-  <!-- About / Intro -->
-  <section class="max-w-7xl mx-auto px-6 py-16 md:py-28">
-    <div class="max-w-3xl">
-      <p class="font-accent text-4xl md:text-5xl text-primary mb-3">the story so far</p>
-      <h2 class="font-heading text-3xl md:text-4xl text-text mb-8">About me</h2>
-      <p class="text-text-secondary text-lg leading-relaxed mb-6">
-        I'm Lisa. I've spent over a decade making cakes — sculpting, painting, and building things that people don't want to cut into.
-      </p>
-      <p class="text-text-secondary text-lg leading-relaxed mb-10">
-        I also teach. My classes are for anyone who wants to learn the craft, whether you're picking up a palette knife for the first time or refining your technique.
-      </p>
-      <a href="/about/"
-        class="text-[11px] tracking-[0.2em] uppercase text-text-secondary hover:text-primary transition-colors">
-        More about Lisa &rarr;
-      </a>
-    </div>
-  </section>
-
-  <!-- CTA — deep teal atmospheric block -->
-  <PaintedEdge fill="#0B3B42" />
+  <!-- CTA -->
   <section class="section-deep">
-    <div class="section-deep-bg">
-      <Image src={tealBg} alt="" width={1200} quality={30} />
-    </div>
-    <div class="max-w-7xl mx-auto px-6 py-16 md:py-28 text-center">
-      <Flourish variant="light" class="mb-4" />
-      <p class="font-accent text-4xl md:text-5xl text-primary-light mb-3">let's create something</p>
-      <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-6">
+    <div class="max-w-7xl mx-auto px-6 section text-center">
+      <h2 class="font-heading text-3xl md:text-4xl text-secondary-light mb-4">
         Every cake starts with a conversation
       </h2>
-      <p class="text-primary-light/80 text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+      <p class="text-on-deep text-lg max-w-xl mx-auto mb-8">
         Tell me about your occasion and I'll design something original for it.
       </p>
-      <a href="/contact/"
-        class="inline-block text-[11px] tracking-[0.2em] uppercase text-secondary-light border-b border-secondary-light/50 pb-1 hover:text-secondary hover:border-secondary transition-colors">
-        Get in touch
+      <a href="/contact/?type=cake" class="btn btn-on-deep">
+        Enquire about a cake
       </a>
     </div>
   </section>
-  <PaintedEdge fill="#F7F5EE" />
 </BaseLayout>

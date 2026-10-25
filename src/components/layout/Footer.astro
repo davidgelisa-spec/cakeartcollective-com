@@ -3,11 +3,11 @@ import { siteConfig } from '../../data/siteConfig';
 ---
 
 <footer class="border-t border-border">
-  <div class="max-w-7xl mx-auto px-6 py-16">
+  <div class="max-w-7xl mx-auto px-6 py-12 md:py-16">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
       <!-- Brand -->
       <div>
-        <a href="/" class="font-body text-sm tracking-[0.15em] uppercase text-text">
+        <a href="/" class="font-body text-sm font-medium tracking-[0.12em] uppercase text-text">
           {siteConfig.name}
         </a>
         <p class="text-text-secondary text-sm mt-3 leading-relaxed">
@@ -18,7 +18,7 @@ import { siteConfig } from '../../data/siteConfig';
       <!-- Navigation -->
       <div>
         <ul class="space-y-2">
-          {siteConfig.nav.filter(item => item.href !== '/').map((item) => (
+          {[...siteConfig.nav.filter(item => item.href !== '/'), ...siteConfig.secondaryNav].map((item) => (
             <li>
               <a
                 href={item.href}
@@ -64,7 +64,7 @@ import { siteConfig } from '../../data/siteConfig';
     </div>
 
     <!-- Copyright -->
-    <div class="border-t border-border mt-12 pt-6 text-center text-xs text-text-secondary/60">
+    <div class="border-t border-border mt-12 pt-6 text-center text-xs text-text-secondary">
       <p>&copy; {new Date().getFullYear()} {siteConfig.name}</p>
     </div>
   </div>
